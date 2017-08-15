@@ -8,82 +8,144 @@
 
 import SpriteKit
 import GameplayKit
+import CoreMotion
 
 class GameScene: SKScene {
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+    private var spider : SKSpriteNode?
+    private var spiderPos: WebPathPosition?
+    private var spiderSpeed: SpeedControl?
+    private var fly : SKSpriteNode?
+    private var flyPos: WebPathPosition?
+    private var flySpeed: SpeedControl?
+    private var manager = CMMotionManager()
+    private var queue = OperationQueue()
+    private var path = WebPath()
+    private var gravityAngle = NAngle(CGFloat(Double.pi * 0.5))
+    
+    private var speedLabel : SKLabelNode?
     
     override func didMove(to view: SKView) {
+        self.buildBackground()
+        self.loadDefaultPath()
+        self.addPath()
         
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
+        self.spider = SKSpriteNode(imageNamed: "spider")
+        self.spiderPos = self.path.firstPosition()
+        self.spiderSpeed = SpeedControl(10)
+        self.spider!.position = self.spiderPos!.point()
+        self.addChild(self.spider!)
+        
+        self.fly = SKSpriteNode(imageNamed: "fly")
+        self.flySpeed = SpeedControl(0)
+        self.flyPos = self.path.positionForDistance(self.path.length()*0.1)
+        self.fly!.position = self.flyPos!.point()
+        self.addChild(self.fly!)
+        
+        self.bootMotion()
+    }
+    
+    private func buildBackground() {
+        self.backgroundColor = SKColor.white
+        self.speedLabel = SKLabelNode(text: "Speed: 0%")
+        self.speedLabel!.fontColor = .black
+        self.speedLabel!.horizontalAlignmentMode = .right
+        self.speedLabel!.verticalAlignmentMode = .top
+        self.speedLabel!.position = CGPoint(x:self.size.width, y:self.size.height)
+        self.addChild(self.speedLabel!)
+    }
+    
+    private func loadDefaultPath() {
+        path.empty()
+        path.addPoint(CGPoint(x:50,y:300))
+        path.addPoint(CGPoint(x:150,y:150))
+        path.addPoint(CGPoint(x:50,y:50))
+    }
+    
+    private func addPath() {
+        var points = self.path.points
+        let ball = SKShapeNode(points: &points,
+                               count: points.count)
+        ball.lineWidth = 1
+        ball.strokeColor = .black
+        ball.glowWidth = 2
+        self.addChild(ball)
+    }
+    
+    private func bootMotion() {
+        if manager.isDeviceMotionAvailable {
+            manager.deviceMotionUpdateInterval = 0.01
+            manager.startDeviceMotionUpdates(to: queue, withHandler: handleMove)
         }
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(M_PI), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
+        else {
+            print("motion not supported")
         }
     }
     
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
+    func handleMove(motion: CMDeviceMotion?, error: Error?) {
+        if let gravity = motion?.gravity {
+            let pi = Double.pi
+            let rotation = atan2(gravity.y, gravity.x)
+            self.gravityAngle = NAngle(CGFloat(rotation))
         }
+    }
+    func touchDown(atPoint pos : CGPoint) {
+        
     }
     
     func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
+        
     }
     
     func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
         
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+        self.moveWithSpeed(speed: self.spiderSpeed!, pos: self.spiderPos!, node: self.spider!, currentTime: currentTime)
+        self.updateFlySpeed()
+        self.speedLabel!.text = "Speed " + String(describing: self.flySpeed!.speed)
+        self.moveWithSpeed(speed: self.flySpeed!, pos: self.flyPos!, node: self.fly!, currentTime: currentTime)
+    }
+    
+    private func updateFlySpeed() {
+        let pathAngle = self.path.angleAt(self.flyPos!)
+        let angDif = self.gravityAngle.difference(pathAngle)
+        print("path:",pathAngle.degreeValue(), "gravity", self.gravityAngle.degreeValue(), " dif:", angDif.degreeValue())
+    
+        let angValue = angDif.absolute().degreeValue()
+        if angValue < 90 {
+            self.flySpeed!.setSpeed(10*((90-angValue)/90))
+        } else {
+            let perpAngValue = 180-angValue
+            self.flySpeed!.setSpeed(-10*((90-perpAngValue)/90))
+        }
+    }
+    
+    private func moveWithSpeed(speed: SpeedControl, pos: WebPathPosition, node: SKSpriteNode, currentTime: TimeInterval) {
+        let dist = speed.moveDistance(currentTime)
+        if abs(Float(dist)) > 1.0 {
+            let tDif = speed.advance(current: currentTime)
+            let newPos = self.path.movePosition(pos, moveDist: dist)
+            pos.copyFrom(newPos)
+            let moveNodeUp = SKAction.move(to: newPos.point(),
+                                           duration: tDif)
+            node.run(moveNodeUp, withKey: "advance")
+        }
+
     }
 }
