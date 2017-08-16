@@ -11,15 +11,21 @@ import CoreGraphics.CGBase
 
 class SpeedControl {
     
-    var lastTime: TimeInterval = 0
-    var speed = CGFloat(0.0)
+    private var lastTime: TimeInterval = 0
+    private var speed = CGFloat(0.0)
+    private var maxSpeed = CGFloat(0.0)
     
-    init(_ speed: CGFloat) {
+    init(maxSpeed: CGFloat, speed: CGFloat) {
         self.speed = speed
+        self.maxSpeed = maxSpeed
     }
     
     func setSpeed(_ speed: CGFloat) {
         self.speed = speed
+    }
+    
+    func percentage() -> CGFloat {
+        return 100.0*(self.speed/self.maxSpeed)
     }
     
     func moveDistance(_ current: TimeInterval) -> CGFloat {

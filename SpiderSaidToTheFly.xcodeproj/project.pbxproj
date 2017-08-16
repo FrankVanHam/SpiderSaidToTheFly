@@ -12,6 +12,7 @@
 		7485C0C31F41F164001B139B /* NAngle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7485C0C21F41F164001B139B /* NAngle.swift */; };
 		7485C0C51F420341001B139B /* SpeedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7485C0C41F420341001B139B /* SpeedControl.swift */; };
 		7485C0C71F4321BF001B139B /* WebPathTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7485C0C61F4321BF001B139B /* WebPathTestCase.swift */; };
+		7485C0D51F437802001B139B /* Paths.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7485C0D41F437801001B139B /* Paths.bundle */; };
 		748915B91F41C75500E5EF04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748915B81F41C75500E5EF04 /* AppDelegate.swift */; };
 		748915BF1F41C75500E5EF04 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748915BE1F41C75500E5EF04 /* GameScene.swift */; };
 		748915C11F41C75500E5EF04 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748915C01F41C75500E5EF04 /* GameViewController.swift */; };
@@ -37,6 +38,7 @@
 		7485C0C21F41F164001B139B /* NAngle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NAngle.swift; sourceTree = "<group>"; };
 		7485C0C41F420341001B139B /* SpeedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeedControl.swift; sourceTree = "<group>"; };
 		7485C0C61F4321BF001B139B /* WebPathTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPathTestCase.swift; sourceTree = "<group>"; };
+		7485C0D41F437801001B139B /* Paths.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Paths.bundle; sourceTree = "<group>"; };
 		748915B51F41C75500E5EF04 /* SpiderSaidToTheFly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpiderSaidToTheFly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		748915B81F41C75500E5EF04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		748915BE1F41C75500E5EF04 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				748915C51F41C75500E5EF04 /* Assets.xcassets */,
 				748915C71F41C75500E5EF04 /* LaunchScreen.storyboard */,
 				748915CA1F41C75500E5EF04 /* Info.plist */,
+				7485C0D41F437801001B139B /* Paths.bundle */,
 			);
 			path = SpiderSaidToTheFly;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 			files = (
 				748915C41F41C75500E5EF04 /* Main.storyboard in Resources */,
 				748915C61F41C75500E5EF04 /* Assets.xcassets in Resources */,
+				7485C0D51F437802001B139B /* Paths.bundle in Resources */,
 				748915C91F41C75500E5EF04 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

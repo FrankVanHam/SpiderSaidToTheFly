@@ -32,12 +32,12 @@ class GameScene: SKScene {
         
         self.spider = SKSpriteNode(imageNamed: "spider")
         self.spiderPos = self.path.firstPosition()
-        self.spiderSpeed = SpeedControl(10)
+        self.spiderSpeed = SpeedControl(maxSpeed: 10, speed: 10)
         self.spider!.position = self.spiderPos!.point()
         self.addChild(self.spider!)
         
         self.fly = SKSpriteNode(imageNamed: "fly")
-        self.flySpeed = SpeedControl(0)
+        self.flySpeed = SpeedControl(maxSpeed: 10, speed: 0)
         self.flyPos = self.path.positionForDistance(self.path.length()*0.1)
         self.fly!.position = self.flyPos!.point()
         self.addChild(self.fly!)
@@ -56,10 +56,44 @@ class GameScene: SKScene {
     }
     
     private func loadDefaultPath() {
-        path.empty()
-        path.addPoint(CGPoint(x:50,y:300))
-        path.addPoint(CGPoint(x:150,y:150))
-        path.addPoint(CGPoint(x:50,y:50))
+        let path = Bundle.main.path(forResource: "path", ofType: "svg", inDirectory: "Paths.bundle")
+        do {
+            let content = try String.init(contentsOfFile: path!, encoding: String.Encoding.utf8 )
+            let range  = content.range(of: "path", options: NSString.CompareOptions.caseInsensitive)
+            
+            
+            
+            let quote1Range = content.range(of: "\"", options: NSString.CompareOptions.caseInsensitive, range: range!.lowerBound..<content.endIndex)
+            let newStart = content.index(quote1Range!.lowerBound, offsetBy: 1)
+            let quote2Range = content.range(of: "\"", options: NSString.CompareOptions.caseInsensitive, range: newStart..<content.endIndex)
+            let newEnd = content.index(quote2Range!.lowerBound, offsetBy: 1)
+            
+            let pathString = content[newStart..<newEnd]
+            let separators = CharacterSet(charactersIn: "MlLhHvVcCsSQqTtAaZz")
+            let sepStartRange = pathString.rangeOfCharacter(from: separators)
+            let sepEndRange = pathString.rangeOfCharacter(from: separators, range: sepStartRange)
+            let pieceStart = pathString.index(sepStartRange!.lowerBound, offsetBy: 1)
+            let pieceEnd = pathString.index(sepEndRange!.lowerBound, offsetBy: 1)
+            print("piece:", pathString[pieceStart..<pieceEnd])
+            print(pathString[pathString.index(0, offsetBy: 10)])
+//            var runningPoint: CGPoint
+//            for pieceOfString in elements {
+//                let index = pieceOfString.index(0, offsetBy: 1)
+//                let char = pieceOfString[index]
+//                switch char {
+//                    case "M":
+//            }
+            
+            //let commaRange = content.range(of: ",", options: NSString.CompareOptions.caseInsensitive, range: isRange)
+            
+            //print(commaRange!.lowerBound)
+            //print(isRange!.lowerBound..<commaRange!.lowerBound)
+        }  catch {
+        }
+        //path.empty()s
+        //path.addPoint(CGPoint(x:50,y:300))
+        //path.addPoint(CGPoint(x:150,y:150))
+        //path.addPoint(CGPoint(x:50,y:50))
     }
     
     private func addPath() {
@@ -84,7 +118,6 @@ class GameScene: SKScene {
     
     func handleMove(motion: CMDeviceMotion?, error: Error?) {
         if let gravity = motion?.gravity {
-            let pi = Double.pi
             let rotation = atan2(gravity.y, gravity.x)
             self.gravityAngle = NAngle(CGFloat(rotation))
         }
@@ -118,7 +151,8 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         self.moveWithSpeed(speed: self.spiderSpeed!, pos: self.spiderPos!, node: self.spider!, currentTime: currentTime)
         self.updateFlySpeed()
-        self.speedLabel!.text = "Speed " + String(describing: self.flySpeed!.speed)
+        let s = NSString(format: "%.2f", self.flySpeed!.percentage())
+        self.speedLabel!.text = "Speed \(s) %"
         self.moveWithSpeed(speed: self.flySpeed!, pos: self.flyPos!, node: self.fly!, currentTime: currentTime)
     }
     
