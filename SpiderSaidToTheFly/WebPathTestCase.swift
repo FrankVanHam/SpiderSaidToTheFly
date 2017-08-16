@@ -23,7 +23,24 @@ class WebPathTestCase: XCTestCase {
         super.tearDown()
     }
     
-    func testDistanceInSector() {
+    func testPositionForDistance() {
+        path = WebPath()
+        path!.addPoint(CGPoint(x: 0,   y: 0))
+        path!.addPoint(CGPoint(x: 100, y: 0))
+        let pos = path?.positionForDistance(50)
+        XCTAssertTrue(pos?.sectorDist == 50)
+        XCTAssertTrue(pos?.distance() == 50)
+    }
+    
+    func testDistance() {
+        path = WebPath()
+        path!.addPoint(CGPoint(x: 0,   y: 0))
+        path!.addPoint(CGPoint(x: 100, y: 0))
+        path!.addPoint(CGPoint(x: 200, y: 0))
+        XCTAssertTrue(path?.length() == 200)
+    }
+    
+    func testPosDistanceInSector() {
         path = WebPath()
         path!.addPoint(CGPoint(x: 0,   y: 0))
         path!.addPoint(CGPoint(x: 100, y: 0))
@@ -32,7 +49,7 @@ class WebPathTestCase: XCTestCase {
         self.assertDistance(setDist: 110, testDist: 100)
     }
     
-    func testDistance() {
+    func testPosDistance() {
         path = WebPath()
         path!.addPoint(CGPoint(x: 0,   y: 0))
         path!.addPoint(CGPoint(x: 100, y: 0))

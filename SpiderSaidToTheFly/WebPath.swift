@@ -29,6 +29,52 @@ class WebPath {
             points[index] = CGPoint(x: point.x * scaleX, y: point.y * scaleY)
         }
     }
+    func fitIn(xmin: CGFloat, ymin: CGFloat, xmax: CGFloat, ymax: CGFloat) {
+        let (myxmin, myymin, myxmax, myymax) = self.minMax()
+        let xtrans = xmin - myxmin
+        let ytrans = ymin - myymin
+        let xscale = (xmax-xmin)/(myxmax-myxmin)
+        let yscale = (ymax-ymin)/(myymax-myymin)
+        
+        for (index, point) in points.enumerated() {
+            let newx = point.x + xtrans
+            let newy = point.y + ytrans
+            
+            let relx = newx - xmin
+            let rely = newy - ymin
+            
+            let transx = relx * xscale + xmin
+            let transy = rely * yscale + ymin
+            
+            let newPoint = CGPoint(x: transx, y: transy )
+            points[index] = newPoint
+        }
+    }
+    func flipHorizontal() {
+        let (_, ymin, _, ymax) = self.minMax()
+        let midy = (ymax+ymin)/2
+        for (index, point) in points.enumerated() {
+            let rely = midy - point.y
+            print(point.y, "to ", point.y + 2*rely)
+            let newPoint = CGPoint(x: point.x, y: point.y + 2*rely )
+            points[index] = newPoint
+        }
+        
+    }
+    func minMax() -> (CGFloat, CGFloat, CGFloat, CGFloat) {
+        let aPoint = points[0]
+        var myxmin = aPoint.x
+        var myymin = aPoint.y
+        var myxmax = aPoint.x
+        var myymax = aPoint.y
+        for point in self.points {
+            myxmin = min(myxmin, point.x)
+            myymin = min(myymin, point.y)
+            myxmax = max(myxmax, point.x)
+            myymax = max(myymax, point.y)
+        }
+        return (myxmin,myymin,myxmax,myymax)
+    }
     func movePosition(_ position: WebPathPosition, moveDist: CGFloat) -> WebPathPosition {
         if moveDist > 0 {
             return self.advancePosition(position, moveDist: moveDist)
@@ -176,7 +222,7 @@ class WebPath {
         for (index, point) in points.enumerated() {
             if index > 0 {
                 let prevPoint = points[index-1]
-                let sectorDist = sqrt(point.x * prevPoint.x + point.y * prevPoint.y)
+                let sectorDist = self.distance(p1: prevPoint, p2: point)
                 len += sectorDist
             }
         }
