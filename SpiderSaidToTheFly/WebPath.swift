@@ -17,12 +17,12 @@ class WebPath {
     }
     
     func firstPosition() -> WebPathPosition {
-        return WebPathPosition(rope: self)
+        return WebPathPosition(path: self)
     }
     func lastPosition() -> WebPathPosition {
         let last = self.lastSectorNr()
         let dist = self.sectorDistance(last)
-        return WebPathPosition(rope: self, sectorNr: last, sectorDist: dist)
+        return WebPathPosition(path: self, sectorNr: last, sectorDist: dist)
     }
     func scaleTo(_ scaleX: CGFloat, scaleY: CGFloat) {
         for (index, point) in points.enumerated() {
@@ -106,7 +106,7 @@ class WebPath {
         
         var pos: WebPathPosition
         if (leftToRun < sectorDist) {
-            pos = WebPathPosition(rope: self, sectorNr: sectorNr, sectorDist: sectorDist - leftToRun)
+            pos = WebPathPosition(path: self, sectorNr: sectorNr, sectorDist: sectorDist - leftToRun)
         } else {
             pos = self.firstPosition()
         }
@@ -152,7 +152,7 @@ class WebPath {
         
         var pos: WebPathPosition
         if (leftToRun < sectorDist) {
-            pos = WebPathPosition(rope: self, sectorNr: runningSectorNr, sectorDist: leftToRun)
+            pos = WebPathPosition(path: self, sectorNr: runningSectorNr, sectorDist: leftToRun)
         } else {
             pos = self.lastPosition()
         }
@@ -209,12 +209,30 @@ class WebPath {
         return points.last!
     }
     
+    func isEmpty() -> Bool {
+        return points.isEmpty
+    }
+    
+    func count() -> Int {
+        return points.count
+    }
+    
     func getPath() -> CGPath {
         let path = CGMutablePath()
         for point in points {
             path.move(to: point)
         }
         return path
+    }
+    
+    func isPositionAtEnd(_ position: WebPathPosition) -> Bool {
+        let last = self.lastSectorNr()
+        if (position.sectorNr == last) {
+            let dist = self.sectorDistance(last)
+            return abs(dist-position.sectorDist) < 0.1
+        } else {
+            return false
+        }
     }
     
     func length() -> CGFloat {

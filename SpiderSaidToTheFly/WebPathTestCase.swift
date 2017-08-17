@@ -29,7 +29,7 @@ class WebPathTestCase: XCTestCase {
         path!.addPoint(CGPoint(x: 100, y: 0))
         let pos = path?.positionForDistance(50)
         XCTAssertTrue(pos?.sectorDist == 50)
-        XCTAssertTrue(pos?.distance() == 50)
+        XCTAssertTrue(pos?.distanceInPath() == 50)
     }
     
     func testDistance() {

@@ -21,6 +21,14 @@
 		748915C91F41C75500E5EF04 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748915C71F41C75500E5EF04 /* LaunchScreen.storyboard */; };
 		748915D41F41C75500E5EF04 /* SpiderSaidToTheFlyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748915D31F41C75500E5EF04 /* SpiderSaidToTheFlyTests.swift */; };
 		7498470F1F4477650028F414 /* WebPathFitTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7498470E1F4477650028F414 /* WebPathFitTestCase.swift */; };
+		749847111F4491B90028F414 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847101F4491B90028F414 /* GameOverScene.swift */; };
+		749847131F4492D00028F414 /* eaten.wav in Resources */ = {isa = PBXBuildFile; fileRef = 749847121F4492D00028F414 /* eaten.wav */; };
+		749847151F44C9800028F414 /* TryAgainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847141F44C9800028F414 /* TryAgainScene.swift */; };
+		749847171F45B9500028F414 /* WonScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847161F45B9500028F414 /* WonScene.swift */; };
+		749847191F45D3DE0028F414 /* WebPathLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847181F45D3DE0028F414 /* WebPathLoader.swift */; };
+		7498471F1F45E2030028F414 /* WebPathLoaderTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7498471E1F45E2030028F414 /* WebPathLoaderTestCase.swift */; };
+		749847221F46111A0028F414 /* LevelSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847211F46111A0028F414 /* LevelSettings.swift */; };
+		749847241F4611820028F414 /* LevelSettingsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847231F4611820028F414 /* LevelSettingsLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +60,14 @@
 		748915D31F41C75500E5EF04 /* SpiderSaidToTheFlyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiderSaidToTheFlyTests.swift; sourceTree = "<group>"; };
 		748915D51F41C75500E5EF04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7498470E1F4477650028F414 /* WebPathFitTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPathFitTestCase.swift; sourceTree = "<group>"; };
+		749847101F4491B90028F414 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		749847121F4492D00028F414 /* eaten.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = eaten.wav; sourceTree = "<group>"; };
+		749847141F44C9800028F414 /* TryAgainScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TryAgainScene.swift; sourceTree = "<group>"; };
+		749847161F45B9500028F414 /* WonScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WonScene.swift; sourceTree = "<group>"; };
+		749847181F45D3DE0028F414 /* WebPathLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPathLoader.swift; sourceTree = "<group>"; };
+		7498471E1F45E2030028F414 /* WebPathLoaderTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPathLoaderTestCase.swift; sourceTree = "<group>"; };
+		749847211F46111A0028F414 /* LevelSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSettings.swift; sourceTree = "<group>"; };
+		749847231F4611820028F414 /* LevelSettingsLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSettingsLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,9 +92,11 @@
 			isa = PBXGroup;
 			children = (
 				7485C0C41F420341001B139B /* SpeedControl.swift */,
+				749847181F45D3DE0028F414 /* WebPathLoader.swift */,
 				7485C0C21F41F164001B139B /* NAngle.swift */,
 				7485C0BD1F41EFB1001B139B /* WebPath.swift */,
 				7498470E1F4477650028F414 /* WebPathFitTestCase.swift */,
+				7498471E1F45E2030028F414 /* WebPathLoaderTestCase.swift */,
 				7485C0C61F4321BF001B139B /* WebPathTestCase.swift */,
 				7485C0C01F41F0FA001B139B /* WebPathPosition.swift */,
 			);
@@ -106,9 +124,14 @@
 		748915B71F41C75500E5EF04 /* SpiderSaidToTheFly */ = {
 			isa = PBXGroup;
 			children = (
+				749847201F46110A0028F414 /* Game */,
 				7485C0BF1F41F04F001B139B /* PathNav */,
 				748915B81F41C75500E5EF04 /* AppDelegate.swift */,
 				748915BE1F41C75500E5EF04 /* GameScene.swift */,
+				749847121F4492D00028F414 /* eaten.wav */,
+				749847101F4491B90028F414 /* GameOverScene.swift */,
+				749847161F45B9500028F414 /* WonScene.swift */,
+				749847141F44C9800028F414 /* TryAgainScene.swift */,
 				748915C01F41C75500E5EF04 /* GameViewController.swift */,
 				748915C21F41C75500E5EF04 /* Main.storyboard */,
 				748915C51F41C75500E5EF04 /* Assets.xcassets */,
@@ -126,6 +149,15 @@
 				748915D51F41C75500E5EF04 /* Info.plist */,
 			);
 			path = SpiderSaidToTheFlyTests;
+			sourceTree = "<group>";
+		};
+		749847201F46110A0028F414 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				749847211F46111A0028F414 /* LevelSettings.swift */,
+				749847231F4611820028F414 /* LevelSettingsLoader.swift */,
+			);
+			name = Game;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,6 +244,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				749847131F4492D00028F414 /* eaten.wav in Resources */,
 				748915C41F41C75500E5EF04 /* Main.storyboard in Resources */,
 				748915C61F41C75500E5EF04 /* Assets.xcassets in Resources */,
 				7485C0D51F437802001B139B /* Paths.bundle in Resources */,
@@ -233,13 +266,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				749847151F44C9800028F414 /* TryAgainScene.swift in Sources */,
 				748915BF1F41C75500E5EF04 /* GameScene.swift in Sources */,
 				748915C11F41C75500E5EF04 /* GameViewController.swift in Sources */,
+				749847241F4611820028F414 /* LevelSettingsLoader.swift in Sources */,
+				749847171F45B9500028F414 /* WonScene.swift in Sources */,
+				749847111F4491B90028F414 /* GameOverScene.swift in Sources */,
 				7485C0C31F41F164001B139B /* NAngle.swift in Sources */,
 				7485C0C51F420341001B139B /* SpeedControl.swift in Sources */,
 				748915B91F41C75500E5EF04 /* AppDelegate.swift in Sources */,
+				749847221F46111A0028F414 /* LevelSettings.swift in Sources */,
 				7485C0BE1F41EFB1001B139B /* WebPath.swift in Sources */,
 				7485C0C11F41F0FA001B139B /* WebPathPosition.swift in Sources */,
+				749847191F45D3DE0028F414 /* WebPathLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7498471F1F45E2030028F414 /* WebPathLoaderTestCase.swift in Sources */,
 				7498470F1F4477650028F414 /* WebPathFitTestCase.swift in Sources */,
 				748915D41F41C75500E5EF04 /* SpiderSaidToTheFlyTests.swift in Sources */,
 				7485C0C71F4321BF001B139B /* WebPathTestCase.swift in Sources */,
