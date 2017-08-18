@@ -25,6 +25,7 @@ class GameScene: SKScene {
     private var running = false
     private var lifeCount = 3
     private var level = 1
+    private var maxLevels = 0
     private var levelSettings: LevelSettings?
     private var speedLabel : SKLabelNode?
     private var levelLabel : SKLabelNode?
@@ -33,6 +34,7 @@ class GameScene: SKScene {
     override init(size: CGSize) {
         super.init(size: size)
         
+        self.determineMaxLevels()
         self.buildBackground()
         self.loadDefaultPath()
         self.addPath()
@@ -45,6 +47,23 @@ class GameScene: SKScene {
         
         self.lifeCount = 3
         self.bootMotion()
+    }
+    
+    private func determineMaxLevels() {
+        var maxi = 0
+        let files = Bundle.main.paths(forResourcesOfType: "svg", inDirectory: "Paths.bundle")
+        for file in files {
+            let url = URL(fileURLWithPath: file)
+            let name = url.deletingPathExtension().lastPathComponent
+            if name.contains("level") {
+                let nrIndex = name.index(name.startIndex, offsetBy: 6)
+                let nrStr = name.substring(from: nrIndex)
+                if let nr = Int(nrStr) {
+                    maxi = max(nr, maxi)
+                }
+            }
+        }
+        self.maxLevels = maxi
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -138,7 +157,7 @@ class GameScene: SKScene {
     }
     
     private func loadDefaultPath() {
-        let levelName = "path\(self.level)"
+        let levelName = "level\(self.level)"
         
         let pathFile = Bundle.main.path(forResource: levelName, ofType: "svg", inDirectory: "Paths.bundle")
         let gameFile = Bundle.main.path(forResource: levelName, ofType: "json", inDirectory: "Paths.bundle")
@@ -194,7 +213,11 @@ class GameScene: SKScene {
     
     private func won() {
         self.running = false
-        self.animateWin()
+        if self.level == self.maxLevels {
+            self.animateEnd()
+        } else {
+            self.animateWin()
+        }
         self.level += 1
     }
     
@@ -205,9 +228,24 @@ class GameScene: SKScene {
         self.fly!.run(SKAction.sequence([moveAction, SKAction.run(self.gotoWonScene)]))
     }
     
+    private func animateEnd() {
+        let pos = self.fly!.position
+        let moveAction = SKAction.move(by: CGVector(dx: -pos.x, dy: self.size.height-pos.y), duration: 2)
+        moveAction.timingMode = .easeIn
+        self.fly!.run(SKAction.sequence([moveAction, SKAction.run(self.gotoEndScene)]))
+    }
+    
     private func gotoWonScene() {
         let skView = self.view as SKView!
         let gameScene = WonScene(size: (skView?.bounds.size)!, returnScene: self)
+        let transition = SKTransition.flipVertical(withDuration: 1.0)
+        gameScene.scaleMode = .aspectFill
+        skView?.presentScene(gameScene, transition: transition)
+    }
+    
+    private func gotoEndScene() {
+        let skView = self.view as SKView!
+        let gameScene = EndScene(size: (skView?.bounds.size)!, returnScene: self)
         let transition = SKTransition.flipVertical(withDuration: 1.0)
         gameScene.scaleMode = .aspectFill
         skView?.presentScene(gameScene, transition: transition)

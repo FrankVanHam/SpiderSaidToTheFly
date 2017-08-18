@@ -29,6 +29,7 @@
 		7498471F1F45E2030028F414 /* WebPathLoaderTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7498471E1F45E2030028F414 /* WebPathLoaderTestCase.swift */; };
 		749847221F46111A0028F414 /* LevelSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847211F46111A0028F414 /* LevelSettings.swift */; };
 		749847241F4611820028F414 /* LevelSettingsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847231F4611820028F414 /* LevelSettingsLoader.swift */; };
+		749847261F46FD330028F414 /* EndScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847251F46FD330028F414 /* EndScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		7498471E1F45E2030028F414 /* WebPathLoaderTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPathLoaderTestCase.swift; sourceTree = "<group>"; };
 		749847211F46111A0028F414 /* LevelSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSettings.swift; sourceTree = "<group>"; };
 		749847231F4611820028F414 /* LevelSettingsLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSettingsLoader.swift; sourceTree = "<group>"; };
+		749847251F46FD330028F414 /* EndScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 				748915BE1F41C75500E5EF04 /* GameScene.swift */,
 				749847121F4492D00028F414 /* eaten.wav */,
 				749847101F4491B90028F414 /* GameOverScene.swift */,
+				749847251F46FD330028F414 /* EndScene.swift */,
 				749847161F45B9500028F414 /* WonScene.swift */,
 				749847141F44C9800028F414 /* TryAgainScene.swift */,
 				748915C01F41C75500E5EF04 /* GameViewController.swift */,
@@ -274,6 +277,7 @@
 				749847111F4491B90028F414 /* GameOverScene.swift in Sources */,
 				7485C0C31F41F164001B139B /* NAngle.swift in Sources */,
 				7485C0C51F420341001B139B /* SpeedControl.swift in Sources */,
+				749847261F46FD330028F414 /* EndScene.swift in Sources */,
 				748915B91F41C75500E5EF04 /* AppDelegate.swift in Sources */,
 				749847221F46111A0028F414 /* LevelSettings.swift in Sources */,
 				7485C0BE1F41EFB1001B139B /* WebPath.swift in Sources */,
