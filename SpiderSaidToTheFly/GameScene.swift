@@ -153,7 +153,7 @@ class GameScene: SKScene {
     
     private func updateStats() {
         self.livesLabel!.text = "lives: \(self.lifeCount)"
-        self.levelLabel!.text = "level \(self.level)"
+        self.levelLabel!.text = "level \(self.level)\\\(self.maxLevels)"
     }
     
     private func loadDefaultPath() {
