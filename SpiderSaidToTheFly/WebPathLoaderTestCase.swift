@@ -31,10 +31,8 @@ class WebPathLoaderTestCase: XCTestCase {
     func testSmallLoad() {
         let loader = WebPathLoader()
         let path = loader.pathFromString(";\"/><path d=\"M0,100l100,-100l10,10\" stroke=\"bla")
-        
         XCTAssertTrue(path.count() == 3)
         XCTAssertTrue(path.points[2].x == 110 )
         XCTAssertTrue(path.points[2].y == 10 )
-        
     }
 }

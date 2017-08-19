@@ -23,21 +23,18 @@ class GameScene: SKScene {
     private var path = WebPath()
     private var gravityAngle = NAngle(CGFloat(Double.pi * -0.5))
     private var running = false
-    private var lifeCount = 3
-    private var level = 1
-    private var maxLevels = 0
     private var levelSettings: LevelSettings?
     private var speedLabel : SKLabelNode?
     private var levelLabel : SKLabelNode?
     private var livesLabel : SKLabelNode?
+    private var pathNode : SKShapeNode?
+    
+    private var game: Game?
     
     override init(size: CGSize) {
         super.init(size: size)
         
-        self.determineMaxLevels()
         self.buildBackground()
-        self.loadDefaultPath()
-        self.addPath()
         
         self.spider = SKSpriteNode(imageNamed: "spider")
         self.addChild(self.spider!)
@@ -45,25 +42,24 @@ class GameScene: SKScene {
         self.fly = SKSpriteNode(imageNamed: "fly")
         self.addChild(self.fly!)
         
-        self.lifeCount = 3
         self.bootMotion()
     }
     
-    private func determineMaxLevels() {
+    private func determineMaxLevels() -> Int{
         var maxi = 0
         let files = Bundle.main.paths(forResourcesOfType: "svg", inDirectory: "Paths.bundle")
         for file in files {
             let url = URL(fileURLWithPath: file)
             let name = url.deletingPathExtension().lastPathComponent
             if name.contains("level") {
-                let nrIndex = name.index(name.startIndex, offsetBy: 6)
+                let nrIndex = name.index(name.startIndex, offsetBy: 5)
                 let nrStr = name.substring(from: nrIndex)
                 if let nr = Int(nrStr) {
                     maxi = max(nr, maxi)
                 }
             }
         }
-        self.maxLevels = maxi
+        return maxi
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -71,15 +67,32 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        self.gameOn()
+        self.loadPath()
+        self.addPath()
         self.animateStart()
         self.resetPositions()
         self.updateStats()
-        self.resetForGameOver()
         self.spider!.position = self.spiderPos!.point()
         self.fly!.position = self.flyPos!.point()
         
         self.animateStart()
         super.didMove(to: view)
+    }
+    
+    private func gameOn() {
+        if self.game == nil {
+            let g = Game.retrieve()
+            if g != nil {
+                self.game = g
+            } else {
+                let max = self.determineMaxLevels()
+                self.game = Game(maxLevels: max, lives: 3)
+            }
+        }
+        if self.game!.isEnded() {
+            self.game!.reset()
+        }
     }
     
     private func animateStart() {
@@ -97,7 +110,12 @@ class GameScene: SKScene {
             moveAction.timingMode = .easeOut
             let myDur = 0.8 * (dur * Double(i))
             let waitAction = SKAction.wait(forDuration: TimeInterval(myDur))
-            scoreLabel.run(SKAction.sequence([waitAction, SKAction.unhide(), moveAction, SKAction.removeFromParent()]))
+            
+            let fade = SKAction.fadeOut(withDuration: dur)
+            let wait = SKAction.sequence([waitAction, SKAction.unhide()])
+            let raise = SKAction.sequence([moveAction, SKAction.removeFromParent()])
+            scoreLabel.run( SKAction.sequence([wait,
+                                               SKAction.group([raise, fade])]))
         }
         let myDur = 0.8 * (dur * 3)
         let waitForAll = SKAction.wait(forDuration: myDur)
@@ -108,18 +126,11 @@ class GameScene: SKScene {
         self.running = true
     }
     
-    private func resetForLifeLost() {
-    }
-    
-    private func resetForGameOver() {
-        self.lifeCount = 3
-    }
-    
     private func resetPositions() {
         let set = self.levelSettings!
         self.spiderSpeed = SpeedControl(maxSpeed: set.spiderSpeed, speed: set.spiderSpeed)
         self.spiderPos = self.path.firstPosition()
-        self.flySpeed = SpeedControl(maxSpeed: set.spiderSpeed, speed: set.flySpeed)
+        self.flySpeed = SpeedControl(maxSpeed: set.flySpeed, speed: set.flySpeed)
         let relDist = self.path.length() * set.flyPosition
         self.flyPos = self.path.positionForDistance(relDist)
     }
@@ -152,12 +163,12 @@ class GameScene: SKScene {
     }
     
     private func updateStats() {
-        self.livesLabel!.text = "lives: \(self.lifeCount)"
-        self.levelLabel!.text = "level \(self.level)\\\(self.maxLevels)"
+        self.livesLabel!.text = "lives: \(self.game!.lives)"
+        self.levelLabel!.text = "level \(self.game!.level())\\\(self.game!.maxLevels)"
     }
     
-    private func loadDefaultPath() {
-        let levelName = "level\(self.level)"
+    private func loadPath() {
+        let levelName = "level\(self.game!.level())"
         
         let pathFile = Bundle.main.path(forResource: levelName, ofType: "svg", inDirectory: "Paths.bundle")
         let gameFile = Bundle.main.path(forResource: levelName, ofType: "json", inDirectory: "Paths.bundle")
@@ -167,13 +178,17 @@ class GameScene: SKScene {
     }
     
     private func addPath() {
+        if self.pathNode != nil {
+            self.pathNode!.removeFromParent()
+            self.pathNode = nil
+        }
         var points = self.path.points
-        let ball = SKShapeNode(points: &points,
-                               count: points.count)
-        ball.lineWidth = 1
-        ball.strokeColor = .darkGray
-        ball.glowWidth = 2
-        self.addChild(ball)
+        self.pathNode = SKShapeNode(points: &points,
+                                    count: points.count)
+        self.pathNode!.lineWidth = 1
+        self.pathNode!.strokeColor = .darkGray
+        self.pathNode!.glowWidth = 2
+        self.addChild(self.pathNode!)
     }
     
     private func bootMotion() {
@@ -198,7 +213,7 @@ class GameScene: SKScene {
         
         self.moveWithSpeed(speed: self.spiderSpeed!, pos: self.spiderPos!, node: self.spider!, currentTime: currentTime)
         self.updateFlySpeed()
-        let s = NSString(format: "%.2f", self.flySpeed!.percentage())
+        let s = NSString(format: "%.0f", self.flySpeed!.percentage())
         self.speedLabel!.text = "Speed \(s) %"
         self.moveWithSpeed(speed: self.flySpeed!, pos: self.flyPos!, node: self.fly!, currentTime: currentTime)
         self.collisionDetect()
@@ -213,12 +228,13 @@ class GameScene: SKScene {
     
     private func won() {
         self.running = false
-        if self.level == self.maxLevels {
+        self.game!.won()
+        self.game!.save()
+        if self.game!.isEnded() {
             self.animateEnd()
         } else {
             self.animateWin()
         }
-        self.level += 1
     }
     
     private func animateWin() {
@@ -262,9 +278,9 @@ class GameScene: SKScene {
     }
     
     private func loselife() {
-        self.lifeCount -= 1
+        self.game!.lose()
         self.updateStats()
-        if self.lifeCount == 0 {
+        if self.game!.over() {
             self.gameOver()
         } else {
             self.tryAgain()
@@ -276,7 +292,6 @@ class GameScene: SKScene {
         let gameScene = GameOverScene(size: (skView?.bounds.size)!, returnScene: self)
         let transition = SKTransition.flipVertical(withDuration: 1.0)
         gameScene.scaleMode = .aspectFill
-        self.resetForGameOver()
         skView?.presentScene(gameScene, transition: transition)
     }
     
@@ -285,7 +300,6 @@ class GameScene: SKScene {
         let gameScene = TryAgainScene(size: (skView?.bounds.size)!, returnScene: self)
         let transition = SKTransition.flipVertical(withDuration: 1.0)
         gameScene.scaleMode = .aspectFill
-        self.resetForLifeLost()
         skView?.presentScene(gameScene, transition: transition)
     }
     
@@ -296,10 +310,10 @@ class GameScene: SKScene {
     
         let angValue = angDif.absolute().degreeValue()
         if angValue < 90 {
-            self.flySpeed!.setSpeed(50*((90-angValue)/90))
+            self.flySpeed!.throttle((90-angValue)/90)
         } else {
             let perpAngValue = 180-angValue
-            self.flySpeed!.setSpeed(-50*((90-perpAngValue)/90))
+            self.flySpeed!.throttle((90-perpAngValue)/90)
         }
     }
     

@@ -44,5 +44,9 @@ class SpeedControl {
         return dif
     }
     
+    func throttle(_ perc: CGFloat) {
+        self.speed = perc * self.maxSpeed
+    }
+    
     
 }

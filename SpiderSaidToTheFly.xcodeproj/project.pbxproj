@@ -30,6 +30,9 @@
 		749847221F46111A0028F414 /* LevelSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847211F46111A0028F414 /* LevelSettings.swift */; };
 		749847241F4611820028F414 /* LevelSettingsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847231F4611820028F414 /* LevelSettingsLoader.swift */; };
 		749847261F46FD330028F414 /* EndScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847251F46FD330028F414 /* EndScene.swift */; };
+		749847281F472A630028F414 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847271F472A630028F414 /* Game.swift */; };
+		7498472A1F4759BA0028F414 /* origin.plist in Resources */ = {isa = PBXBuildFile; fileRef = 749847291F4759BA0028F414 /* origin.plist */; };
+		7498472C1F47658C0028F414 /* StartupScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7498472B1F47658C0028F414 /* StartupScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +73,9 @@
 		749847211F46111A0028F414 /* LevelSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSettings.swift; sourceTree = "<group>"; };
 		749847231F4611820028F414 /* LevelSettingsLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSettingsLoader.swift; sourceTree = "<group>"; };
 		749847251F46FD330028F414 /* EndScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndScene.swift; sourceTree = "<group>"; };
+		749847271F472A630028F414 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		749847291F4759BA0028F414 /* origin.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = origin.plist; sourceTree = "<group>"; };
+		7498472B1F47658C0028F414 /* StartupScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,10 +137,12 @@
 				748915B81F41C75500E5EF04 /* AppDelegate.swift */,
 				748915BE1F41C75500E5EF04 /* GameScene.swift */,
 				749847121F4492D00028F414 /* eaten.wav */,
+				749847291F4759BA0028F414 /* origin.plist */,
 				749847101F4491B90028F414 /* GameOverScene.swift */,
 				749847251F46FD330028F414 /* EndScene.swift */,
 				749847161F45B9500028F414 /* WonScene.swift */,
 				749847141F44C9800028F414 /* TryAgainScene.swift */,
+				7498472B1F47658C0028F414 /* StartupScene.swift */,
 				748915C01F41C75500E5EF04 /* GameViewController.swift */,
 				748915C21F41C75500E5EF04 /* Main.storyboard */,
 				748915C51F41C75500E5EF04 /* Assets.xcassets */,
@@ -159,6 +167,7 @@
 			children = (
 				749847211F46111A0028F414 /* LevelSettings.swift */,
 				749847231F4611820028F414 /* LevelSettingsLoader.swift */,
+				749847271F472A630028F414 /* Game.swift */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -249,6 +258,7 @@
 			files = (
 				749847131F4492D00028F414 /* eaten.wav in Resources */,
 				748915C41F41C75500E5EF04 /* Main.storyboard in Resources */,
+				7498472A1F4759BA0028F414 /* origin.plist in Resources */,
 				748915C61F41C75500E5EF04 /* Assets.xcassets in Resources */,
 				7485C0D51F437802001B139B /* Paths.bundle in Resources */,
 				748915C91F41C75500E5EF04 /* LaunchScreen.storyboard in Resources */,
@@ -270,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				749847151F44C9800028F414 /* TryAgainScene.swift in Sources */,
+				749847281F472A630028F414 /* Game.swift in Sources */,
 				748915BF1F41C75500E5EF04 /* GameScene.swift in Sources */,
 				748915C11F41C75500E5EF04 /* GameViewController.swift in Sources */,
 				749847241F4611820028F414 /* LevelSettingsLoader.swift in Sources */,
@@ -282,6 +293,7 @@
 				749847221F46111A0028F414 /* LevelSettings.swift in Sources */,
 				7485C0BE1F41EFB1001B139B /* WebPath.swift in Sources */,
 				7485C0C11F41F0FA001B139B /* WebPathPosition.swift in Sources */,
+				7498472C1F47658C0028F414 /* StartupScene.swift in Sources */,
 				749847191F45D3DE0028F414 /* WebPathLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
