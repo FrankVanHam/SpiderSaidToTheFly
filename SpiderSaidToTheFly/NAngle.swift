@@ -24,6 +24,9 @@ class NAngle: CustomStringConvertible {
             value = value + (2*pi)
         }
     }
+    static func betweenPoints( p1: CGPoint, p2: CGPoint ) -> NAngle {
+        return NAngle(atan2(p2.y-p1.y, p2.x-p1.x))
+    }
     func difference(_ otherAngle: NAngle) -> NAngle {
         return NAngle(value - otherAngle.value)
     }

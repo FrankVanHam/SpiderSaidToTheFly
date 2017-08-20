@@ -38,6 +38,10 @@ class SpeedControl {
         }
     }
     
+    func moveDistanceIn(_ interval: TimeInterval) -> CGFloat {
+        return speed * CGFloat(interval)
+    }
+    
     func advance(current: TimeInterval) -> TimeInterval {
         let dif = current - lastTime
         lastTime = current

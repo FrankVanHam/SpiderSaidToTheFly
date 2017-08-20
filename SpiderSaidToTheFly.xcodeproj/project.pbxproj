@@ -20,6 +20,8 @@
 		748915C61F41C75500E5EF04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 748915C51F41C75500E5EF04 /* Assets.xcassets */; };
 		748915C91F41C75500E5EF04 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748915C71F41C75500E5EF04 /* LaunchScreen.storyboard */; };
 		748915D41F41C75500E5EF04 /* SpiderSaidToTheFlyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748915D31F41C75500E5EF04 /* SpiderSaidToTheFlyTests.swift */; };
+		749247F81F487F8C00411A6D /* SubScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749247F71F487F8C00411A6D /* SubScene.swift */; };
+		749247FC1F48AF9600411A6D /* flyContinuous.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 749247FB1F48AF9600411A6D /* flyContinuous.aiff */; };
 		7498470F1F4477650028F414 /* WebPathFitTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7498470E1F4477650028F414 /* WebPathFitTestCase.swift */; };
 		749847111F4491B90028F414 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847101F4491B90028F414 /* GameOverScene.swift */; };
 		749847131F4492D00028F414 /* eaten.wav in Resources */ = {isa = PBXBuildFile; fileRef = 749847121F4492D00028F414 /* eaten.wav */; };
@@ -63,6 +65,9 @@
 		748915CF1F41C75500E5EF04 /* SpiderSaidToTheFlyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpiderSaidToTheFlyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		748915D31F41C75500E5EF04 /* SpiderSaidToTheFlyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiderSaidToTheFlyTests.swift; sourceTree = "<group>"; };
 		748915D51F41C75500E5EF04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		749247F71F487F8C00411A6D /* SubScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubScene.swift; sourceTree = "<group>"; };
+		749247FB1F48AF9600411A6D /* flyContinuous.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = flyContinuous.aiff; sourceTree = "<group>"; };
+		749247FD1F49C48400411A6D /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		7498470E1F4477650028F414 /* WebPathFitTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPathFitTestCase.swift; sourceTree = "<group>"; };
 		749847101F4491B90028F414 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		749847121F4492D00028F414 /* eaten.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = eaten.wav; sourceTree = "<group>"; };
@@ -138,9 +143,11 @@
 				748915BE1F41C75500E5EF04 /* GameScene.swift */,
 				749847121F4492D00028F414 /* eaten.wav */,
 				749847291F4759BA0028F414 /* origin.plist */,
+				749247FB1F48AF9600411A6D /* flyContinuous.aiff */,
 				749847101F4491B90028F414 /* GameOverScene.swift */,
 				749847251F46FD330028F414 /* EndScene.swift */,
 				749847161F45B9500028F414 /* WonScene.swift */,
+				749247F71F487F8C00411A6D /* SubScene.swift */,
 				749847141F44C9800028F414 /* TryAgainScene.swift */,
 				7498472B1F47658C0028F414 /* StartupScene.swift */,
 				748915C01F41C75500E5EF04 /* GameViewController.swift */,
@@ -149,6 +156,7 @@
 				748915C71F41C75500E5EF04 /* LaunchScreen.storyboard */,
 				748915CA1F41C75500E5EF04 /* Info.plist */,
 				7485C0D41F437801001B139B /* Paths.bundle */,
+				749247FD1F49C48400411A6D /* MyPlayground.playground */,
 			);
 			path = SpiderSaidToTheFly;
 			sourceTree = "<group>";
@@ -222,7 +230,7 @@
 				TargetAttributes = {
 					748915B41F41C75500E5EF04 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 872LTXUPUU;
+						DevelopmentTeam = 6VB963WBA8;
 						ProvisioningStyle = Automatic;
 					};
 					748915CE1F41C75500E5EF04 = {
@@ -261,6 +269,7 @@
 				7498472A1F4759BA0028F414 /* origin.plist in Resources */,
 				748915C61F41C75500E5EF04 /* Assets.xcassets in Resources */,
 				7485C0D51F437802001B139B /* Paths.bundle in Resources */,
+				749247FC1F48AF9600411A6D /* flyContinuous.aiff in Resources */,
 				748915C91F41C75500E5EF04 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +295,7 @@
 				749847241F4611820028F414 /* LevelSettingsLoader.swift in Sources */,
 				749847171F45B9500028F414 /* WonScene.swift in Sources */,
 				749847111F4491B90028F414 /* GameOverScene.swift in Sources */,
+				749247F81F487F8C00411A6D /* SubScene.swift in Sources */,
 				7485C0C31F41F164001B139B /* NAngle.swift in Sources */,
 				7485C0C51F420341001B139B /* SpeedControl.swift in Sources */,
 				749847261F46FD330028F414 /* EndScene.swift in Sources */,
@@ -436,7 +446,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 872LTXUPUU;
+				DEVELOPMENT_TEAM = 6VB963WBA8;
 				INFOPLIST_FILE = SpiderSaidToTheFly/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fvh.SpiderSaidToTheFly;
@@ -449,7 +459,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 872LTXUPUU;
+				DEVELOPMENT_TEAM = 6VB963WBA8;
 				INFOPLIST_FILE = SpiderSaidToTheFly/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fvh.SpiderSaidToTheFly;

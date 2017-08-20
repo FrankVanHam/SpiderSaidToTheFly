@@ -55,7 +55,6 @@ class WebPath {
         let midy = (ymax+ymin)/2
         for (index, point) in points.enumerated() {
             let rely = midy - point.y
-            print(point.y, "to ", point.y + 2*rely)
             let newPoint = CGPoint(x: point.x, y: point.y + 2*rely )
             points[index] = newPoint
         }
@@ -251,4 +250,38 @@ class WebPath {
         return self.points.count - 2
     }
     
+    func cleanUp() {
+        //return
+        var newPoints : [CGPoint] = []
+        for point in points {
+            if newPoints.count > 0 {
+                let last = newPoints[newPoints.endIndex-1]
+                if (Int(point.x) == Int(last.x)) && (Int(point.y) == Int(last.y)) {
+                    continue
+                }
+            }
+            // If the point is linear to the last point
+            // then replace the last.
+            if newPoints.count > 1 {
+                let p1 = newPoints[newPoints.endIndex-2]
+                var p2 = newPoints[newPoints.endIndex-1]
+                
+                let a  = NAngle.betweenPoints(p1: p1, p2: p2)
+                let b = NAngle.betweenPoints(p1: p1, p2: point)
+                
+                let dif = a.difference(b)
+                let same = (abs(dif.value) < 0.001)
+
+                if same {
+                    p2.x = point.x
+                    p2.y = point.y
+                    newPoints[newPoints.endIndex-1] = p2
+                    continue
+                }
+            }
+        newPoints.append(point)
+        }
+        self.points = newPoints
+    }
+
 }

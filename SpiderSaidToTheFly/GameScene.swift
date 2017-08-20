@@ -8,32 +8,37 @@
 
 import SpriteKit
 import GameplayKit
-import CoreMotion
+import AVFoundation
 
 class GameScene: SKScene {
     
-    private var spider : SKSpriteNode?
-    private var spiderPos: WebPathPosition?
-    private var spiderSpeed: SpeedControl?
-    private var fly : SKSpriteNode?
-    private var flyPos: WebPathPosition?
-    private var flySpeed: SpeedControl?
-    private var manager = CMMotionManager()
-    private var queue = OperationQueue()
-    private var path = WebPath()
-    private var gravityAngle = NAngle(CGFloat(Double.pi * -0.5))
-    private var running = false
-    private var levelSettings: LevelSettings?
-    private var speedLabel : SKLabelNode?
-    private var levelLabel : SKLabelNode?
-    private var livesLabel : SKLabelNode?
-    private var pathNode : SKShapeNode?
+    var spider : SKSpriteNode!
+    var fly : SKSpriteNode!
+    private var speedLabel : SKLabelNode!
+    private var levelLabel : SKLabelNode!
+    private var livesLabel : SKLabelNode!
+    private var pathNode : SKShapeNode!
+    private var backgroundMusic: AVAudioPlayer!
     
-    private var game: Game?
+    let eatenSound = SKAction.playSoundFileNamed("eaten.wav", waitForCompletion: true)
     
-    override init(size: CGSize) {
+    private var startCallback: (()->Void)!
+    private var collisionCallback: (()->Void)!
+    private var collisionReported = false
+    
+    init(size: CGSize, startCallback: @escaping ()->Void, collisionCallback: @escaping ()->Void) {
+        self.startCallback = startCallback
+        self.collisionCallback = collisionCallback
         super.init(size: size)
         
+        do {
+            if let url = Bundle.main.url(forResource: "flyContinuous", withExtension: "aiff") {
+                try backgroundMusic = AVAudioPlayer(contentsOf: url)
+                backgroundMusic.numberOfLoops = -1
+            }
+        } catch {
+            backgroundMusic = nil
+        }
         self.buildBackground()
         
         self.spider = SKSpriteNode(imageNamed: "spider")
@@ -41,25 +46,6 @@ class GameScene: SKScene {
         
         self.fly = SKSpriteNode(imageNamed: "fly")
         self.addChild(self.fly!)
-        
-        self.bootMotion()
-    }
-    
-    private func determineMaxLevels() -> Int{
-        var maxi = 0
-        let files = Bundle.main.paths(forResourcesOfType: "svg", inDirectory: "Paths.bundle")
-        for file in files {
-            let url = URL(fileURLWithPath: file)
-            let name = url.deletingPathExtension().lastPathComponent
-            if name.contains("level") {
-                let nrIndex = name.index(name.startIndex, offsetBy: 5)
-                let nrStr = name.substring(from: nrIndex)
-                if let nr = Int(nrStr) {
-                    maxi = max(nr, maxi)
-                }
-            }
-        }
-        return maxi
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -67,39 +53,147 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        self.gameOn()
-        self.loadPath()
-        self.addPath()
-        self.animateStart()
-        self.resetPositions()
-        self.updateStats()
-        self.spider!.position = self.spiderPos!.point()
-        self.fly!.position = self.flyPos!.point()
-        
         self.animateStart()
         super.didMove(to: view)
     }
     
-    private func gameOn() {
-        if self.game == nil {
-            let g = Game.retrieve()
-            if g != nil {
-                self.game = g
-            } else {
-                let max = self.determineMaxLevels()
-                self.game = Game(maxLevels: max, lives: 3)
+    func load(path: WebPath, game: Game) -> WebPath {
+        path.fitIn(xmin: 10, ymin: 10, xmax: self.size.width-20, ymax: self.size.height-40)
+        self.addPath(path)
+        self.updateStats(game: game)
+        return path
+    }
+    
+    
+    func becomeAlive() {
+        if (backgroundMusic != nil ) {
+            backgroundMusic.play()
+        }
+        collisionReported = false
+        self.startCallback()
+    }
+    
+    private func buildBackground() {
+        backgroundColor = SKColor.white
+        
+        speedLabel = SKLabelNode(fontNamed: "ChalkboardSE-Regular")
+        speedLabel.fontSize = 16
+        speedLabel.fontColor = .black
+        speedLabel.horizontalAlignmentMode = .right
+        speedLabel.verticalAlignmentMode = .top
+        speedLabel.position = CGPoint(x:self.size.width, y:self.size.height)
+        self.addChild(speedLabel)
+    
+        livesLabel = SKLabelNode(fontNamed: "ChalkboardSE-Regular")
+        livesLabel.fontSize = 16
+        livesLabel.fontColor = .black
+        livesLabel.horizontalAlignmentMode = .left
+        livesLabel.verticalAlignmentMode = .top
+        livesLabel.position = CGPoint(x:0, y:self.size.height)
+        self.addChild(livesLabel)
+
+        levelLabel = SKLabelNode(fontNamed: "ChalkboardSE-Regular")
+        levelLabel.fontSize = 16
+        levelLabel.fontColor = .black
+        levelLabel.horizontalAlignmentMode = .center
+        levelLabel.verticalAlignmentMode = .top
+        levelLabel.position = CGPoint(x:self.size.width/2, y:self.size.height)
+        self.addChild(levelLabel)
+    }
+    
+    private func updateStats(game: Game) {
+        livesLabel.text = "lives: \(game.lives)"
+        levelLabel.text = "level \(game.level())\\\(game.maxLevels)"
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        if !collisionReported {
+            if self.distance(p1: self.fly.position, p2: self.spider.position) < 5 {
+                collisionReported = true 
+                collisionCallback()
             }
         }
-        if self.game!.isEnded() {
-            self.game!.reset()
+        super.update(currentTime)
+    }
+    
+    fileprivate func distance(p1: CGPoint, p2: CGPoint) -> CGFloat {
+        let xd = p2.x - p1.x
+        let yd = p2.y - p1.y
+        return sqrt(xd*xd + yd*yd)
+    }
+    
+    private func addPath(_ path: WebPath) {
+        if self.pathNode != nil {
+            self.pathNode!.removeFromParent()
+            self.pathNode = nil
         }
+        var points = path.points
+        self.pathNode = SKShapeNode(points: &points,
+                                    count: points.count)
+        self.pathNode!.lineWidth = 1
+        self.pathNode!.strokeColor = .darkGray
+        self.pathNode!.glowWidth = 2
+        self.addChild(self.pathNode!)
+    }
+    
+    func updatePositions(flyPos: WebPathPosition, spiderPos: WebPathPosition, interval: TimeInterval, callback: @escaping ()->Void) {
+        let halfPi = CGFloat(Double.pi/2)
+        let flyAngle = flyPos.angle().value - halfPi
+        let rotateFly = SKAction.rotate(toAngle: flyAngle, duration: interval)
+        let moveFly = SKAction.move(to: flyPos.point(), duration: interval)
+        fly.run(SKAction.group([rotateFly, moveFly]))
+        
+        let spiderAngle = spiderPos.angle().value + halfPi
+        let rotateSpider = SKAction.rotate(toAngle: spiderAngle, duration: interval)
+        let moveSpider = SKAction.move(to: spiderPos.point(), duration: interval)
+        let cb = SKAction.run(callback)
+        spider.run( SKAction.group( [rotateSpider,
+                                     SKAction.sequence([moveSpider, cb]) ]) )
+    }
+    
+    func setPositions(flyPos: WebPathPosition, spiderPos: WebPathPosition) {
+        fly.position = flyPos.point()
+        spider.position = spiderPos.point()
+    }
+
+    func updateSpeedLabel(_ speed: SpeedControl) {
+        let s = String(format: "%.0f", speed.percentage())
+        speedLabel.text = "Speed \(s) %"
+    }
+    func animateEaten(callback: @escaping ()->Void) {
+        self.stopMusic()
+        
+        let sound = self.eatenSound
+        let wait = SKAction.wait(forDuration: 2)
+        let cb = SKAction.run(callback)
+        self.run(SKAction.sequence([sound,
+                                    wait,
+                                    cb]))
+    }
+
+    func animateWin(callback: @escaping ()->Void) {
+        let pos = self.fly!.position
+        let moveAction = SKAction.move(by: CGVector(dx: -pos.x, dy: self.size.height-pos.y), duration: 2)
+        moveAction.timingMode = .easeIn
+        self.fly!.run(SKAction.sequence([moveAction,
+                                         SKAction.run(self.stopMusic),
+                                         SKAction.run(callback)]))
+    }
+    
+    func animateEnd(callback: @escaping ()->Void) {
+        let pos = self.fly!.position
+        let moveAction = SKAction.move(by: CGVector(dx: -pos.x, dy: self.size.height-pos.y), duration: 2)
+        moveAction.timingMode = .easeIn
+        self.fly!.run(SKAction.sequence([moveAction,
+                                         SKAction.run(self.stopMusic),
+                                         SKAction.run(callback)]))
     }
     
     private func animateStart() {
         let centerPosition = CGPoint(x: self.size.width/2, y: self.size.height/2)
         let dur = 0.8
         for i in 0..<3 {
-            let scoreLabel = SKLabelNode(fontNamed: "GillSans-BoldItalic")
+            let scoreLabel = SKLabelNode(fontNamed: "ChalkboardSE-Regular")
             scoreLabel.isHidden = true
             scoreLabel.fontSize = 20
             scoreLabel.fontColor = .blue
@@ -121,212 +215,11 @@ class GameScene: SKScene {
         let waitForAll = SKAction.wait(forDuration: myDur)
         self.run(SKAction.sequence([waitForAll, SKAction.run(self.becomeAlive)]))
     }
-    
-    func becomeAlive() {
-        self.running = true
-    }
-    
-    private func resetPositions() {
-        let set = self.levelSettings!
-        self.spiderSpeed = SpeedControl(maxSpeed: set.spiderSpeed, speed: set.spiderSpeed)
-        self.spiderPos = self.path.firstPosition()
-        self.flySpeed = SpeedControl(maxSpeed: set.flySpeed, speed: set.flySpeed)
-        let relDist = self.path.length() * set.flyPosition
-        self.flyPos = self.path.positionForDistance(relDist)
-    }
-    
-    private func buildBackground() {
-        self.backgroundColor = SKColor.white
-        self.speedLabel = SKLabelNode(fontNamed: "GillSans-BoldItalic")
-        self.speedLabel!.fontSize = 16
-        self.speedLabel!.fontColor = .black
-        self.speedLabel!.horizontalAlignmentMode = .right
-        self.speedLabel!.verticalAlignmentMode = .top
-        self.speedLabel!.position = CGPoint(x:self.size.width, y:self.size.height)
-        self.addChild(self.speedLabel!)
-    
-        self.livesLabel = SKLabelNode(fontNamed: "GillSans-BoldItalic")
-        self.livesLabel!.fontSize = 16
-        self.livesLabel!.fontColor = .black
-        self.livesLabel!.horizontalAlignmentMode = .left
-        self.livesLabel!.verticalAlignmentMode = .top
-        self.livesLabel!.position = CGPoint(x:0, y:self.size.height)
-        self.addChild(self.livesLabel!)
 
-        self.levelLabel = SKLabelNode(fontNamed: "GillSans-BoldItalic")
-        self.levelLabel!.fontSize = 16
-        self.levelLabel!.fontColor = .black
-        self.levelLabel!.horizontalAlignmentMode = .center
-        self.levelLabel!.verticalAlignmentMode = .top
-        self.levelLabel!.position = CGPoint(x:self.size.width/2, y:self.size.height)
-        self.addChild(self.levelLabel!)
-    }
-    
-    private func updateStats() {
-        self.livesLabel!.text = "lives: \(self.game!.lives)"
-        self.levelLabel!.text = "level \(self.game!.level())\\\(self.game!.maxLevels)"
-    }
-    
-    private func loadPath() {
-        let levelName = "level\(self.game!.level())"
-        
-        let pathFile = Bundle.main.path(forResource: levelName, ofType: "svg", inDirectory: "Paths.bundle")
-        let gameFile = Bundle.main.path(forResource: levelName, ofType: "json", inDirectory: "Paths.bundle")
-        
-        self.path = WebPathLoader().pathFromFile(filePath: pathFile!)
-        self.levelSettings = LevelSettingsLoader().settingsFromFile(filePath: gameFile!)
-    }
-    
-    private func addPath() {
-        if self.pathNode != nil {
-            self.pathNode!.removeFromParent()
-            self.pathNode = nil
-        }
-        var points = self.path.points
-        self.pathNode = SKShapeNode(points: &points,
-                                    count: points.count)
-        self.pathNode!.lineWidth = 1
-        self.pathNode!.strokeColor = .darkGray
-        self.pathNode!.glowWidth = 2
-        self.addChild(self.pathNode!)
-    }
-    
-    private func bootMotion() {
-        if manager.isDeviceMotionAvailable {
-            manager.deviceMotionUpdateInterval = 0.01
-            manager.startDeviceMotionUpdates(to: queue, withHandler: handleMove)
-        }
-        else {
-            print("motion not supported")
+    func stopMusic() {
+        if (backgroundMusic != nil) {
+            backgroundMusic.stop()
         }
     }
     
-    func handleMove(motion: CMDeviceMotion?, error: Error?) {
-        if let gravity = motion?.gravity {
-            let rotation = atan2(gravity.y, gravity.x)
-            self.gravityAngle = NAngle(CGFloat(rotation))
-        }
-    }
-    
-    override func update(_ currentTime: TimeInterval) {
-        if !self.running {return}
-        
-        self.moveWithSpeed(speed: self.spiderSpeed!, pos: self.spiderPos!, node: self.spider!, currentTime: currentTime)
-        self.updateFlySpeed()
-        let s = NSString(format: "%.0f", self.flySpeed!.percentage())
-        self.speedLabel!.text = "Speed \(s) %"
-        self.moveWithSpeed(speed: self.flySpeed!, pos: self.flyPos!, node: self.fly!, currentTime: currentTime)
-        self.collisionDetect()
-        self.winDetect()
-    }
-    
-    private func winDetect() {
-        if self.flyPos!.isAtEnd() {
-            self.won()
-        }
-    }
-    
-    private func won() {
-        self.running = false
-        self.game!.won()
-        self.game!.save()
-        if self.game!.isEnded() {
-            self.animateEnd()
-        } else {
-            self.animateWin()
-        }
-    }
-    
-    private func animateWin() {
-        let pos = self.fly!.position
-        let moveAction = SKAction.move(by: CGVector(dx: -pos.x, dy: self.size.height-pos.y), duration: 2)
-        moveAction.timingMode = .easeIn
-        self.fly!.run(SKAction.sequence([moveAction, SKAction.run(self.gotoWonScene)]))
-    }
-    
-    private func animateEnd() {
-        let pos = self.fly!.position
-        let moveAction = SKAction.move(by: CGVector(dx: -pos.x, dy: self.size.height-pos.y), duration: 2)
-        moveAction.timingMode = .easeIn
-        self.fly!.run(SKAction.sequence([moveAction, SKAction.run(self.gotoEndScene)]))
-    }
-    
-    private func gotoWonScene() {
-        let skView = self.view as SKView!
-        let gameScene = WonScene(size: (skView?.bounds.size)!, returnScene: self)
-        let transition = SKTransition.flipVertical(withDuration: 1.0)
-        gameScene.scaleMode = .aspectFill
-        skView?.presentScene(gameScene, transition: transition)
-    }
-    
-    private func gotoEndScene() {
-        let skView = self.view as SKView!
-        let gameScene = EndScene(size: (skView?.bounds.size)!, returnScene: self)
-        let transition = SKTransition.flipVertical(withDuration: 1.0)
-        gameScene.scaleMode = .aspectFill
-        skView?.presentScene(gameScene, transition: transition)
-    }
-    
-    private func collisionDetect() {
-        if self.flyPos!.distanceTo(self.spiderPos!) < 5 {
-            self.running = false
-            let sound = SKAction.playSoundFileNamed("eaten.wav", waitForCompletion: true)
-            let wait = SKAction.wait(forDuration: 2)
-            let toLose = SKAction.run(self.loselife)
-            self.run(SKAction.sequence([sound, wait, toLose]))
-        }
-    }
-    
-    private func loselife() {
-        self.game!.lose()
-        self.updateStats()
-        if self.game!.over() {
-            self.gameOver()
-        } else {
-            self.tryAgain()
-        }
-    }
-    
-    private func gameOver() {
-        let skView = self.view as SKView!
-        let gameScene = GameOverScene(size: (skView?.bounds.size)!, returnScene: self)
-        let transition = SKTransition.flipVertical(withDuration: 1.0)
-        gameScene.scaleMode = .aspectFill
-        skView?.presentScene(gameScene, transition: transition)
-    }
-    
-    private func tryAgain() {
-        let skView = self.view as SKView!
-        let gameScene = TryAgainScene(size: (skView?.bounds.size)!, returnScene: self)
-        let transition = SKTransition.flipVertical(withDuration: 1.0)
-        gameScene.scaleMode = .aspectFill
-        skView?.presentScene(gameScene, transition: transition)
-    }
-    
-    private func updateFlySpeed() {
-        let pathAngle = self.path.angleAt(self.flyPos!)
-        let angDif = self.gravityAngle.difference(pathAngle)
-        //print("path:",pathAngle.degreeValue(), "gravity", self.gravityAngle.degreeValue(), " dif:", angDif.degreeValue())
-    
-        let angValue = angDif.absolute().degreeValue()
-        if angValue < 90 {
-            self.flySpeed!.throttle((90-angValue)/90)
-        } else {
-            let perpAngValue = 180-angValue
-            self.flySpeed!.throttle((90-perpAngValue)/90)
-        }
-    }
-    
-    private func moveWithSpeed(speed: SpeedControl, pos: WebPathPosition, node: SKSpriteNode, currentTime: TimeInterval) {
-        let dist = speed.moveDistance(currentTime)
-        if abs(Float(dist)) > 1.0 {
-            let tDif = speed.advance(current: currentTime)
-            let newPos = self.path.movePosition(pos, moveDist: dist)
-            pos.copyFrom(newPos)
-            let moveNodeUp = SKAction.move(to: newPos.point(),
-                                           duration: tDif)
-            node.run(moveNodeUp, withKey: "advance")
-        }
-
-    }
 }

@@ -111,6 +111,34 @@ class WebPathTestCase: XCTestCase {
         self.assertMove(start: 250, moveDist: -200, testDist: 50)
         self.assertMove(start: 150, moveDist: -600, testDist: 0)
     }
+    
+    func testCleanUp() {
+        path = WebPath()
+        path!.addPoint(CGPoint(x: 0,   y: 0))
+        path!.addPoint(CGPoint(x: 100, y: 0))
+        path!.addPoint(CGPoint(x: 200, y: 0))
+        path!.cleanUp()
+        XCTAssertEqual(path?.count(), 2)
+        XCTAssertEqual(path?.last().x, 200)
+        
+        path = WebPath()
+        path!.addPoint(CGPoint(x: 0,   y: 0))
+        path!.addPoint(CGPoint(x: 100, y: 100))
+        path!.addPoint(CGPoint(x: 200, y: 200))
+        path!.cleanUp()
+        XCTAssertEqual(path?.count(), 2)
+        XCTAssertEqual(path?.last().x, 200)
+
+        path = WebPath()
+        path!.addPoint(CGPoint(x: 0,   y: 0))
+        path!.addPoint(CGPoint(x: 100, y: 0))
+        path!.addPoint(CGPoint(x: 100, y: 0))
+        path!.cleanUp()
+        XCTAssertEqual(path?.count(), 2)
+        
+        
+        
+    }
 
     private func assertMove(start: CGFloat, moveDist: CGFloat, testDist: CGFloat) {
         let p1 = path!.positionForDistance(start)

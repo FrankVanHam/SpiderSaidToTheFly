@@ -43,6 +43,11 @@ class Game {
         }
     }
     
+    func setMaxLevels(_ maxLevels: Int) {
+        self.maxLevels = maxLevels
+        self.levelsLeft = max(self.levelsLeft, maxLevels)
+    }
+    
     func reset() {
         self.lives = self.maxLives
         self.levelsLeft = self.maxLevels

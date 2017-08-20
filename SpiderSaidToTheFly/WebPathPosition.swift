@@ -32,6 +32,9 @@ class WebPathPosition {
     func isAtEnd() -> Bool {
         return self.path.isPositionAtEnd(self)
     }
+    func angle() -> NAngle {
+        return self.path.angleAt(self)
+    }
 
     func isOn(_ position: WebPathPosition, margin: CGFloat) -> Bool {
         return abs(self.distanceInPath() - position.distanceInPath()) <= margin
