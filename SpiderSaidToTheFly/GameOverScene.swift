@@ -13,7 +13,6 @@ class GameOverScene: SubScene {
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.white
         
-        self.addCenterLabel(text: "Game over!", aligmnent: .bottom, size: 20)
-        self.addCenterLabel(text: "Touch the screen to restart the game", aligmnent: .top, size: 12)
+        self.addCenterLabels(mains: ["Game over!"], subs: ["Touch the screen to restart the game"])
     }
 }

@@ -13,7 +13,11 @@ class WonScene: SubScene {
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.white
         
-        self.addCenterLabel(text: "You made it!", aligmnent: .bottom, size: 20)
-        self.addCenterLabel(text: "Touch the screen to move to the next level", aligmnent: .top, size: 12)
+        var labels: [String] = []
+        labels.append("Move to the next level")
+        labels.append("")
+        labels.append("touch the screen to continue")
+        
+        self.addCenterLabels(mains: ["You made it"], subs: labels)
     }
 }

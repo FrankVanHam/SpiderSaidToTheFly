@@ -251,37 +251,37 @@ class WebPath {
     }
     
     func cleanUp() {
-        //return
-        var newPoints : [CGPoint] = []
-        for point in points {
-            if newPoints.count > 0 {
-                let last = newPoints[newPoints.endIndex-1]
-                if (Int(point.x) == Int(last.x)) && (Int(point.y) == Int(last.y)) {
-                    continue
-                }
-            }
-            // If the point is linear to the last point
-            // then replace the last.
-            if newPoints.count > 1 {
-                let p1 = newPoints[newPoints.endIndex-2]
-                var p2 = newPoints[newPoints.endIndex-1]
-                
-                let a  = NAngle.betweenPoints(p1: p1, p2: p2)
-                let b = NAngle.betweenPoints(p1: p1, p2: point)
-                
-                let dif = a.difference(b)
-                let same = (abs(dif.value) < 0.001)
-
-                if same {
-                    p2.x = point.x
-                    p2.y = point.y
-                    newPoints[newPoints.endIndex-1] = p2
-                    continue
-                }
-            }
-        newPoints.append(point)
-        }
-        self.points = newPoints
+        return
+//        var newPoints : [CGPoint] = []
+//        for point in points {
+//            if newPoints.count > 0 {
+//                let last = newPoints[newPoints.endIndex-1]
+//                if (Int(point.x) == Int(last.x)) && (Int(point.y) == Int(last.y)) {
+//                    continue
+//                }
+//            }
+//            // If the point is linear to the last point
+//            // then replace the last.
+//            if newPoints.count > 1 {
+//                let p1 = newPoints[newPoints.endIndex-2]
+//                var p2 = newPoints[newPoints.endIndex-1]
+//                
+//                let a  = NAngle.betweenPoints(p1: p1, p2: p2)
+//                let b = NAngle.betweenPoints(p1: p1, p2: point)
+//                
+//                let dif = a.difference(b)
+//                let same = (abs(dif.value) < 0.001)
+//                let toBig = (abs(dif.value) > 0.2)
+//                if same || toBig{
+//                    p2.x = point.x
+//                    p2.y = point.y
+//                    newPoints[newPoints.endIndex-1] = p2
+//                    continue
+//                }
+//            }
+//        newPoints.append(point)
+//        }
+//        self.points = newPoints
     }
 
 }

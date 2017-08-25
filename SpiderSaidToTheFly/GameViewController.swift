@@ -16,9 +16,7 @@ class GameViewController: UIViewController {
     private var queue = OperationQueue()
     
     private var gameScene: GameScene!
-    private var path: WebPath!
     private var game: Game!
-    private var levelSettings: LevelSettings!
     private var isRunning = false
     private var gravityAngle: NAngle!
     private var spiderPos: WebPathPosition!
@@ -26,23 +24,27 @@ class GameViewController: UIViewController {
     private var flyPos: WebPathPosition!
     private var flySpeed: SpeedControl!
     
-    private var drumBeat = TimeInterval(0.2)
-    @IBOutlet weak var spiderLabel: UILabel!
+    private var isDebugging = false
+    private var spiderLabel: UILabel?
+    private var spiderSlider: UISlider?
+    private var flyLabel: UILabel?
+    private var flySlider: UISlider?
+    private var levelLabel: UILabel?
+    private var levelSlider: UISlider?
     
-    @IBOutlet weak var resetButton: UIButton!
-    @IBOutlet weak var spiderSLider: UISlider!
-    @IBOutlet weak var flySlider: UISlider!
-    @IBOutlet weak var flyLabel: UILabel!
+    private var drumBeat = TimeInterval(0.2)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.gameOn()
-    
+        
         let skView = self.view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
         
-        self.showStartup()
+        if isDebugging {
+            self.setupDebug()
+        }
+        self.gotoStartupScene()
     }
     
     private func gameOn() {
@@ -56,6 +58,9 @@ class GameViewController: UIViewController {
             }
         }
         game.setMaxLevels(max)
+        if game.isEnded() {
+            game.reset()
+        }
     }
     
     private func determineMaxLevels() -> Int{
@@ -74,29 +79,7 @@ class GameViewController: UIViewController {
         }
         return maxi
     }
-    
-    private func loadPath() {
-        let levelName = "level\(self.game!.level())"
-        
-        let pathFile = Bundle.main.path(forResource: levelName, ofType: "svg", inDirectory: "Paths.bundle")
-        let gameFile = Bundle.main.path(forResource: levelName, ofType: "json", inDirectory: "Paths.bundle")
-        
-        path = WebPathLoader().pathFromFile(filePath: pathFile!)
-        path.cleanUp()
-        if path.first().y < path.last().y {
-            path.flipHorizontal()
-        }
-        path = gameScene.load(path: path, game: game)
-        self.levelSettings = LevelSettingsLoader().settingsFromFile(filePath: gameFile!)
-    }
 
-    private func showStartup() {
-        let skView = self.view as! SKView
-        let scene = StartupScene(size: view.bounds.size, callback: self.startup)
-        scene.scaleMode = .aspectFill
-        skView.presentScene(scene)
-    }
-    
     func startup() {
         self.bootMotion()
         
@@ -104,37 +87,48 @@ class GameViewController: UIViewController {
                               startCallback: self.startLoop,
                               collisionCallback: self.collisionDetected)
         gameScene.scaleMode = .aspectFill
-        self.continueGame()
+        self.gotoNextScene()
     }
     
-    @IBAction func resetPressed(_ sender: UIButton) {
+    func resetPressed(_ sender: UIButton) {
+        game.syncWithScene(scene: gameScene)
         self.resetPositions()
     }
     
-    @IBAction func spiderValueChanged(_ sender: UISlider) {
+    func spiderValueChanged(_ sender: UISlider) {
         let speed = CGFloat(Float(sender.value))
-        levelSettings.spiderSpeed = speed
+        self.levelSettings().spiderSpeed = speed
+        self.spiderSpeed = SpeedControl(maxSpeed: self.levelSettings().spiderSpeed, speed: self.levelSettings().spiderSpeed)
         self.updateSpeedLabels()
     }
     
-    @IBAction func flyValueChanged(_ sender: UISlider) {
+    func flyValueChanged(_ sender: UISlider) {
         let speed = CGFloat(Float(sender.value))
-        levelSettings.flySpeed = speed
+        self.levelSettings().flySpeed = speed
+        self.flySpeed = SpeedControl(maxSpeed: self.levelSettings().flySpeed, speed: self.levelSettings().flySpeed)
         self.updateSpeedLabels()
+    }
+    
+    func levelValueChanged(_ sender: UISlider) {
+        let level = Int(sender.value)
+        game.setLevel(level)
+        self.levelLabel!.text = "Level \(game.level())"
     }
     
     private func updateSpeedLabels() {
-        self.spiderLabel.text = "Spider \(Int(levelSettings.spiderSpeed))"
-        self.flyLabel.text = "Fly \(Int(levelSettings.flySpeed))"
+        if !isDebugging {return}
+        self.spiderSlider!.value = Float(self.levelSettings().spiderSpeed)
+        self.flySlider!.value = Float(self.levelSettings().flySpeed)
+        self.spiderLabel!.text = "Spider \(Int(self.levelSettings().spiderSpeed))"
+        self.flyLabel!.text = "Fly \(Int(self.levelSettings().flySpeed))"
     }
     
-    private func continueGame() {
+    private func startLevel() {
         if self.game!.isEnded() {
             self.game!.reset()
+            self.game!.save()
         }
-        self.loadPath()
-        self.spiderSLider.value = Float(levelSettings.spiderSpeed)
-        self.flySlider.value = Float(levelSettings.flySpeed)
+        game.syncWithScene(scene: gameScene)
         self.updateSpeedLabels()
         self.resetPositions()
         
@@ -165,6 +159,7 @@ class GameViewController: UIViewController {
     }
     
     private func updateFlySpeed() {
+        let path = game.path!
         let pathAngle = path.angleAt(self.flyPos)
         let angDif = gravityAngle.difference(pathAngle)
         //print("path:",pathAngle.degreeValue(), "gravity", self.gravityAngle.degreeValue(), " dif:", angDif.degreeValue())
@@ -179,16 +174,18 @@ class GameViewController: UIViewController {
     }
     
     private func updatePathPosition(speed: SpeedControl, pos: WebPathPosition) {
-        let dist = speed.moveDistanceIn(drumBeat)*5
+        let dist = speed.moveDistanceIn(drumBeat)
         if abs(Float(dist)) > 1.0 {
             //let tDif = speed.advance(current: currentTime)
+            let path = game.path!
             let newPos = path.movePosition(pos, moveDist: dist)
             pos.copyFrom(newPos)
         }
     }
     
     private func resetPositions() {
-        let set = self.levelSettings!
+        let path = game.path!
+        let set = self.levelSettings()
         self.spiderSpeed = SpeedControl(maxSpeed: set.spiderSpeed, speed: set.spiderSpeed)
         self.spiderPos = path.firstPosition()
         self.flySpeed = SpeedControl(maxSpeed: set.flySpeed, speed: set.flySpeed)
@@ -205,6 +202,7 @@ class GameViewController: UIViewController {
     private func winDetect() {
         if self.flyPos!.isAtEnd() {
             isRunning = false
+            gameScene.ignoreCollision()
             self.won()
         }
     }
@@ -231,7 +229,7 @@ class GameViewController: UIViewController {
     
     private func gameOver() {
         let skView = self.view as! SKView
-        let scene = GameOverScene(size: (skView.bounds.size), callback: self.continueGame)
+        let scene = GameOverScene(size: (skView.bounds.size), callback: self.gotoNextScene)
         let transition = SKTransition.flipVertical(withDuration: 1.0)
         scene.scaleMode = .aspectFill
         skView.presentScene(scene, transition: transition)
@@ -239,7 +237,7 @@ class GameViewController: UIViewController {
     
     private func tryAgain() {
         let skView = self.view as! SKView
-        let scene = TryAgainScene(size: (skView.bounds.size), callback: self.continueGame)
+        let scene = TryAgainScene(size: (skView.bounds.size), callback: self.gotoNextScene)
         let transition = SKTransition.flipVertical(withDuration: 1.0)
         scene.scaleMode = .aspectFill
         skView.presentScene(scene, transition: transition)
@@ -254,16 +252,33 @@ class GameViewController: UIViewController {
     }
     
     private func gotoWonScene() {
-        let skView = self.view as! SKView
-        let scene = WonScene(size: (skView.bounds.size), callback: self.continueGame)
-        let transition = SKTransition.flipVertical(withDuration: 1.0)
-        scene.scaleMode = .aspectFill
-        skView.presentScene(scene, transition: transition)
+        let scene = WonScene(size: (view.bounds.size), callback: self.gotoNextScene)
+        self.transitionScene(scene: scene)
     }
     
     private func gotoEndScene() {
+        let scene = EndScene(size: (view.bounds.size), callback: self.gotoNextScene)
+        self.transitionScene(scene: scene)
+    }
+    
+    private func gotoNextScene() {
+        let scene = NextScene(size: (view.bounds.size), callback: self.startLevel)
+        scene.setGame(game)
+        self.transitionScene(scene: scene)
+    }
+    
+    private func gotoCreditsScene() {
+        let scene = CreditsScene(size: (view.bounds.size), callback: self.gotoStartupScene)
+        self.transitionScene(scene: scene)
+    }
+    
+    private func gotoStartupScene() {
+        let scene = StartupScene(size: view.bounds.size, callback: self.startup, creditCallback: self.gotoCreditsScene)
+        self.transitionScene(scene: scene)
+    }
+    
+    private func transitionScene(scene: SKScene) {
         let skView = self.view as! SKView
-        let scene = EndScene(size: (skView.bounds.size), callback: self.continueGame)
         let transition = SKTransition.flipVertical(withDuration: 1.0)
         scene.scaleMode = .aspectFill
         skView.presentScene(scene, transition: transition)
@@ -286,6 +301,48 @@ class GameViewController: UIViewController {
             gravityAngle = NAngle(CGFloat(rotation))
         }
     }
+    
+    private func levelSettings() -> LevelSettings{
+        return game.settings
+    }
+    
+    private func setupDebug() {
+        let b = UIButton(frame: CGRect(x: 20, y: 20, width: 100, height: 50))
+        b.setTitle("Reset", for: .normal)
+        b.backgroundColor = .gray
+        b.addTarget(self, action: #selector(self.resetPressed), for: .touchUpInside)
+        self.view.addSubview(b)
+        
+        spiderLabel = UILabel(frame: CGRect(x: 0, y: 70, width: 100, height: 50))
+        self.view.addSubview(spiderLabel!)
+        spiderSlider = UISlider(frame: CGRect(x: 110, y: 70, width: 200, height: 50))
+        spiderSlider!.value = 10
+        spiderSlider!.minimumValue = 0
+        spiderSlider!.maximumValue = 300
+        spiderSlider!.addTarget(self, action: #selector(self.spiderValueChanged), for: .valueChanged)
+        self.view.addSubview(spiderSlider!)
+        
+        flyLabel = UILabel(frame: CGRect(x: 0, y: 120, width: 100, height: 50))
+        self.view.addSubview(flyLabel!)
+        flySlider = UISlider(frame: CGRect(x: 110, y: 120, width: 200, height: 50))
+        flySlider!.value = 10
+        flySlider!.minimumValue = 0
+        flySlider!.maximumValue = 300
+        flySlider!.addTarget(self, action: #selector(self.flyValueChanged), for: .valueChanged)
+        self.view.addSubview(flySlider!)
+        
+        levelLabel = UILabel(frame: CGRect(x: 0, y: 170, width: 100, height: 50))
+        self.view.addSubview(levelLabel!)
+        levelSlider = UISlider(frame: CGRect(x: 110, y: 170, width: 200, height: 50))
+        levelSlider!.value = 1
+        levelSlider!.minimumValue = 1
+        let max = self.determineMaxLevels()
+        levelSlider!.maximumValue = Float(max)
+        levelSlider!.addTarget(self, action: #selector(self.levelValueChanged), for: .valueChanged)
+        self.view.addSubview(levelSlider!)
+        
+    }
+    
     override var shouldAutorotate: Bool {
         return false
     }
@@ -306,4 +363,6 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    
 }

@@ -21,10 +21,11 @@ class LevelSettingsLoader {
             let spiderSpeed: CGFloat = json["spiderSpeed"] as! CGFloat
             let flySpeed: CGFloat = json["flySpeed"] as! CGFloat
             let flyPosition: CGFloat = json["flyPosition"] as! CGFloat
+            let subText: [String] = json["subtext"] as! [String]
             
-            return LevelSettings(spiderSpeed: spiderSpeed, flySpeed: flySpeed, flyPosition: flyPosition)
+            return LevelSettings(spiderSpeed: spiderSpeed, flySpeed: flySpeed, flyPosition: flyPosition, subText: subText)
         } catch {
-            return LevelSettings(spiderSpeed: 10, flySpeed: 10, flyPosition: 0.2)
+            return LevelSettings(spiderSpeed: 10, flySpeed: 10, flyPosition: 0.2, subText: [])
         }
     }
             

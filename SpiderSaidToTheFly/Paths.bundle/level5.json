@@ -1,5 +1,6 @@
 {
-    "spiderSpeed": 10,
-    "flySpeed": 15,
-    "flyPosition": 0.10
+    "spiderSpeed": 50,
+    "flySpeed": 60,
+    "flyPosition": 0.10,
+    "subtext": ["Criss-cross with triangles"]
 }

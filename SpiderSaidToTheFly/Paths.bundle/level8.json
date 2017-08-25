@@ -1,0 +1,6 @@
+{
+    "spiderSpeed": 50,
+    "flySpeed": 60,
+    "flyPosition": 0.15,
+    "subtext": ["small circles means fast", "turns. Dont drop the device!"]
+}

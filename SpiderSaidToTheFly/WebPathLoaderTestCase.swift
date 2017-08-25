@@ -35,4 +35,19 @@ class WebPathLoaderTestCase: XCTestCase {
         XCTAssertTrue(path.points[2].x == 110 )
         XCTAssertTrue(path.points[2].y == 10 )
     }
+    
+    func testPathLoad() {
+        let loader = WebPathLoader()
+        let path = loader.pathFromString("<path id=\"D82B436E_join\" style=\"fill:none\" d=\"M18.8702937963,140.03959996 L19.9499580415,156.819848859 L21.747897963,166.255745793\"")
+            XCTAssertEqual(path.count(), 3)
+    }
+    
+    func testPolylineLoad() {
+        let loader = WebPolylineLoader()
+        let path = loader.pathFromString("<polyline style=\"fill:none\" points=\"456.948963765,10.0281141741 456.550526265,494.043739174 110,10\"")
+        XCTAssertTrue(path.count() == 3)
+        XCTAssertTrue(path.points[2].x == 110 )
+        XCTAssertTrue(path.points[2].y == 10 )
+
+    }
 }

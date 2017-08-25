@@ -24,7 +24,7 @@ class GameScene: SKScene {
     
     private var startCallback: (()->Void)!
     private var collisionCallback: (()->Void)!
-    private var collisionReported = false
+    private var isCollisionOn = false
     
     init(size: CGSize, startCallback: @escaping ()->Void, collisionCallback: @escaping ()->Void) {
         self.startCallback = startCallback
@@ -69,7 +69,7 @@ class GameScene: SKScene {
         if (backgroundMusic != nil ) {
             backgroundMusic.play()
         }
-        collisionReported = false
+        isCollisionOn = true
         self.startCallback()
     }
     
@@ -106,10 +106,14 @@ class GameScene: SKScene {
         levelLabel.text = "level \(game.level())\\\(game.maxLevels)"
     }
     
+    func ignoreCollision() {
+        isCollisionOn = false 
+    }
+    
     override func update(_ currentTime: TimeInterval) {
-        if !collisionReported {
+        if isCollisionOn {
             if self.distance(p1: self.fly.position, p2: self.spider.position) < 5 {
-                collisionReported = true 
+                isCollisionOn = false
                 collisionCallback()
             }
         }
@@ -173,29 +177,40 @@ class GameScene: SKScene {
 
     func animateWin(callback: @escaping ()->Void) {
         let pos = self.fly!.position
-        let moveAction = SKAction.move(by: CGVector(dx: -pos.x, dy: self.size.height-pos.y), duration: 2)
+        let toPos = CGPoint(x: 0, y: self.size.height)
+        let moveAction = SKAction.move(to: toPos, duration: 2)
+        let halfPi = CGFloat(Double.pi/2)
+        let angle = atan2(toPos.y-pos.y, toPos.x-pos.x) - halfPi
+        let rotate = SKAction.rotate(toAngle: angle, duration: 0.1)
         moveAction.timingMode = .easeIn
-        self.fly!.run(SKAction.sequence([moveAction,
+        self.fly!.run(SKAction.sequence([rotate,
+                                         moveAction,
                                          SKAction.run(self.stopMusic),
                                          SKAction.run(callback)]))
     }
     
     func animateEnd(callback: @escaping ()->Void) {
         let pos = self.fly!.position
-        let moveAction = SKAction.move(by: CGVector(dx: -pos.x, dy: self.size.height-pos.y), duration: 2)
+        let toPos = CGPoint(x: self.size.width, y: self.size.height)
+        let moveAction = SKAction.move(to: toPos, duration: 2)
+        let halfPi = CGFloat(Double.pi/2)
+        let angle = atan2(toPos.y-pos.y, toPos.x-pos.x) - halfPi
+        let rotate = SKAction.rotate(toAngle: angle, duration: 0.1)
         moveAction.timingMode = .easeIn
-        self.fly!.run(SKAction.sequence([moveAction,
+        self.fly!.run(SKAction.sequence([rotate,
+                                         moveAction,
                                          SKAction.run(self.stopMusic),
                                          SKAction.run(callback)]))
     }
     
     private func animateStart() {
+        let beep = SKAction.playSoundFileNamed("beep.wav", waitForCompletion: false)
         let centerPosition = CGPoint(x: self.size.width/2, y: self.size.height/2)
         let dur = 0.8
         for i in 0..<3 {
             let scoreLabel = SKLabelNode(fontNamed: "ChalkboardSE-Regular")
             scoreLabel.isHidden = true
-            scoreLabel.fontSize = 20
+            scoreLabel.fontSize = 40
             scoreLabel.fontColor = .blue
             scoreLabel.text = String(3-i)
             scoreLabel.position = centerPosition
@@ -209,6 +224,7 @@ class GameScene: SKScene {
             let wait = SKAction.sequence([waitAction, SKAction.unhide()])
             let raise = SKAction.sequence([moveAction, SKAction.removeFromParent()])
             scoreLabel.run( SKAction.sequence([wait,
+                                               beep,
                                                SKAction.group([raise, fade])]))
         }
         let myDur = 0.8 * (dur * 3)

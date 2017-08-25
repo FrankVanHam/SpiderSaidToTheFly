@@ -7,6 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		740041DD1F4D8F7C00316732 /* NextScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740041DC1F4D8F7C00316732 /* NextScene.swift */; };
+		740041DF1F4D9D8A00316732 /* CreditsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740041DE1F4D9D8A00316732 /* CreditsScene.swift */; };
+		740041EB1F4DAA3D00316732 /* eaten.wav in Resources */ = {isa = PBXBuildFile; fileRef = 740041E91F4DAA3D00316732 /* eaten.wav */; };
+		740041ED1F4DAB0700316732 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 740041EC1F4DAB0700316732 /* beep.wav */; };
+		740041F01F4ED62000316732 /* TryAgainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847141F44C9800028F414 /* TryAgainScene.swift */; };
+		740041F11F4ED62000316732 /* CreditsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740041DE1F4D9D8A00316732 /* CreditsScene.swift */; };
+		740041F21F4ED62000316732 /* NextScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740041DC1F4D8F7C00316732 /* NextScene.swift */; };
+		740041F31F4ED62000316732 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847271F472A630028F414 /* Game.swift */; };
+		740041F41F4ED62000316732 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748915BE1F41C75500E5EF04 /* GameScene.swift */; };
+		740041F51F4ED62000316732 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748915C01F41C75500E5EF04 /* GameViewController.swift */; };
+		740041F61F4ED62000316732 /* LevelSettingsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847231F4611820028F414 /* LevelSettingsLoader.swift */; };
+		740041F71F4ED62000316732 /* WonScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847161F45B9500028F414 /* WonScene.swift */; };
+		740041F81F4ED62000316732 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847101F4491B90028F414 /* GameOverScene.swift */; };
+		740041F91F4ED62000316732 /* SubScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749247F71F487F8C00411A6D /* SubScene.swift */; };
+		740041FA1F4ED62000316732 /* NAngle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7485C0C21F41F164001B139B /* NAngle.swift */; };
+		740041FB1F4ED62000316732 /* SpeedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7485C0C41F420341001B139B /* SpeedControl.swift */; };
+		740041FC1F4ED62000316732 /* WebPolylineLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749247FE1F4B672F00411A6D /* WebPolylineLoader.swift */; };
+		740041FD1F4ED62000316732 /* EndScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847251F46FD330028F414 /* EndScene.swift */; };
+		740041FE1F4ED62000316732 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748915B81F41C75500E5EF04 /* AppDelegate.swift */; };
+		740041FF1F4ED62000316732 /* LevelSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847211F46111A0028F414 /* LevelSettings.swift */; };
+		740042001F4ED62000316732 /* WebPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7485C0BD1F41EFB1001B139B /* WebPath.swift */; };
+		740042011F4ED62000316732 /* WebPathPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7485C0C01F41F0FA001B139B /* WebPathPosition.swift */; };
+		740042021F4ED62000316732 /* StartupScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7498472B1F47658C0028F414 /* StartupScene.swift */; };
+		740042031F4ED62000316732 /* WebPathLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847181F45D3DE0028F414 /* WebPathLoader.swift */; };
+		740042061F4ED62000316732 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748915C21F41C75500E5EF04 /* Main.storyboard */; };
+		740042071F4ED62000316732 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 740041EC1F4DAB0700316732 /* beep.wav */; };
+		740042081F4ED62000316732 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 748915C51F41C75500E5EF04 /* Assets.xcassets */; };
+		740042091F4ED62000316732 /* Paths.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7485C0D41F437801001B139B /* Paths.bundle */; };
+		7400420A1F4ED62000316732 /* flyContinuous.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 749247FB1F48AF9600411A6D /* flyContinuous.aiff */; };
+		7400420B1F4ED62000316732 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748915C71F41C75500E5EF04 /* LaunchScreen.storyboard */; };
+		7400420C1F4ED62000316732 /* eaten.wav in Resources */ = {isa = PBXBuildFile; fileRef = 740041E91F4DAA3D00316732 /* eaten.wav */; };
+		740042351F4EE92600316732 /* Info-iPad.plist in Resources */ = {isa = PBXBuildFile; fileRef = 740042341F4EE92600316732 /* Info-iPad.plist */; };
 		7485C0BE1F41EFB1001B139B /* WebPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7485C0BD1F41EFB1001B139B /* WebPath.swift */; };
 		7485C0C11F41F0FA001B139B /* WebPathPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7485C0C01F41F0FA001B139B /* WebPathPosition.swift */; };
 		7485C0C31F41F164001B139B /* NAngle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7485C0C21F41F164001B139B /* NAngle.swift */; };
@@ -22,9 +54,9 @@
 		748915D41F41C75500E5EF04 /* SpiderSaidToTheFlyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748915D31F41C75500E5EF04 /* SpiderSaidToTheFlyTests.swift */; };
 		749247F81F487F8C00411A6D /* SubScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749247F71F487F8C00411A6D /* SubScene.swift */; };
 		749247FC1F48AF9600411A6D /* flyContinuous.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 749247FB1F48AF9600411A6D /* flyContinuous.aiff */; };
+		749247FF1F4B672F00411A6D /* WebPolylineLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749247FE1F4B672F00411A6D /* WebPolylineLoader.swift */; };
 		7498470F1F4477650028F414 /* WebPathFitTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7498470E1F4477650028F414 /* WebPathFitTestCase.swift */; };
 		749847111F4491B90028F414 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847101F4491B90028F414 /* GameOverScene.swift */; };
-		749847131F4492D00028F414 /* eaten.wav in Resources */ = {isa = PBXBuildFile; fileRef = 749847121F4492D00028F414 /* eaten.wav */; };
 		749847151F44C9800028F414 /* TryAgainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847141F44C9800028F414 /* TryAgainScene.swift */; };
 		749847171F45B9500028F414 /* WonScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847161F45B9500028F414 /* WonScene.swift */; };
 		749847191F45D3DE0028F414 /* WebPathLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847181F45D3DE0028F414 /* WebPathLoader.swift */; };
@@ -33,7 +65,6 @@
 		749847241F4611820028F414 /* LevelSettingsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847231F4611820028F414 /* LevelSettingsLoader.swift */; };
 		749847261F46FD330028F414 /* EndScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847251F46FD330028F414 /* EndScene.swift */; };
 		749847281F472A630028F414 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749847271F472A630028F414 /* Game.swift */; };
-		7498472A1F4759BA0028F414 /* origin.plist in Resources */ = {isa = PBXBuildFile; fileRef = 749847291F4759BA0028F414 /* origin.plist */; };
 		7498472C1F47658C0028F414 /* StartupScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7498472B1F47658C0028F414 /* StartupScene.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +79,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		740041DC1F4D8F7C00316732 /* NextScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextScene.swift; sourceTree = "<group>"; };
+		740041DE1F4D9D8A00316732 /* CreditsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditsScene.swift; sourceTree = "<group>"; };
+		740041E91F4DAA3D00316732 /* eaten.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = eaten.wav; sourceTree = "<group>"; };
+		740041EC1F4DAB0700316732 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
+		740042101F4ED62000316732 /* SpiderSaidToTheFly-iPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SpiderSaidToTheFly-iPad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		740042341F4EE92600316732 /* Info-iPad.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iPad.plist"; sourceTree = "<group>"; };
 		7485C0BD1F41EFB1001B139B /* WebPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPath.swift; sourceTree = "<group>"; };
 		7485C0C01F41F0FA001B139B /* WebPathPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPathPosition.swift; sourceTree = "<group>"; };
 		7485C0C21F41F164001B139B /* NAngle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NAngle.swift; sourceTree = "<group>"; };
@@ -67,10 +104,9 @@
 		748915D51F41C75500E5EF04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		749247F71F487F8C00411A6D /* SubScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubScene.swift; sourceTree = "<group>"; };
 		749247FB1F48AF9600411A6D /* flyContinuous.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = flyContinuous.aiff; sourceTree = "<group>"; };
-		749247FD1F49C48400411A6D /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
+		749247FE1F4B672F00411A6D /* WebPolylineLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPolylineLoader.swift; sourceTree = "<group>"; };
 		7498470E1F4477650028F414 /* WebPathFitTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPathFitTestCase.swift; sourceTree = "<group>"; };
 		749847101F4491B90028F414 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
-		749847121F4492D00028F414 /* eaten.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = eaten.wav; sourceTree = "<group>"; };
 		749847141F44C9800028F414 /* TryAgainScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TryAgainScene.swift; sourceTree = "<group>"; };
 		749847161F45B9500028F414 /* WonScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WonScene.swift; sourceTree = "<group>"; };
 		749847181F45D3DE0028F414 /* WebPathLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebPathLoader.swift; sourceTree = "<group>"; };
@@ -79,11 +115,17 @@
 		749847231F4611820028F414 /* LevelSettingsLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSettingsLoader.swift; sourceTree = "<group>"; };
 		749847251F46FD330028F414 /* EndScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndScene.swift; sourceTree = "<group>"; };
 		749847271F472A630028F414 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
-		749847291F4759BA0028F414 /* origin.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = origin.plist; sourceTree = "<group>"; };
 		7498472B1F47658C0028F414 /* StartupScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		740042041F4ED62000316732 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		748915B21F41C75500E5EF04 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -101,11 +143,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		740042301F4ED62000316732 /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Resources-iPad";
+			sourceTree = "<group>";
+		};
+		740042321F4EE6CA00316732 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				748915BE1F41C75500E5EF04 /* GameScene.swift */,
+				740041DC1F4D8F7C00316732 /* NextScene.swift */,
+				749847101F4491B90028F414 /* GameOverScene.swift */,
+				749847251F46FD330028F414 /* EndScene.swift */,
+				749847161F45B9500028F414 /* WonScene.swift */,
+				740041DE1F4D9D8A00316732 /* CreditsScene.swift */,
+				749247F71F487F8C00411A6D /* SubScene.swift */,
+				749847141F44C9800028F414 /* TryAgainScene.swift */,
+				7498472B1F47658C0028F414 /* StartupScene.swift */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		740042331F4EE6EB00316732 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				749247FB1F48AF9600411A6D /* flyContinuous.aiff */,
+				740041E91F4DAA3D00316732 /* eaten.wav */,
+				740041EC1F4DAB0700316732 /* beep.wav */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		7485C0BF1F41F04F001B139B /* PathNav */ = {
 			isa = PBXGroup;
 			children = (
 				7485C0C41F420341001B139B /* SpeedControl.swift */,
 				749847181F45D3DE0028F414 /* WebPathLoader.swift */,
+				749247FE1F4B672F00411A6D /* WebPolylineLoader.swift */,
 				7485C0C21F41F164001B139B /* NAngle.swift */,
 				7485C0BD1F41EFB1001B139B /* WebPath.swift */,
 				7498470E1F4477650028F414 /* WebPathFitTestCase.swift */,
@@ -119,6 +195,7 @@
 		748915AC1F41C75500E5EF04 = {
 			isa = PBXGroup;
 			children = (
+				740042301F4ED62000316732 /* Resources-iPad */,
 				748915B71F41C75500E5EF04 /* SpiderSaidToTheFly */,
 				748915D21F41C75500E5EF04 /* SpiderSaidToTheFlyTests */,
 				748915B61F41C75500E5EF04 /* Products */,
@@ -130,6 +207,7 @@
 			children = (
 				748915B51F41C75500E5EF04 /* SpiderSaidToTheFly.app */,
 				748915CF1F41C75500E5EF04 /* SpiderSaidToTheFlyTests.xctest */,
+				740042101F4ED62000316732 /* SpiderSaidToTheFly-iPad.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -139,24 +217,16 @@
 			children = (
 				749847201F46110A0028F414 /* Game */,
 				7485C0BF1F41F04F001B139B /* PathNav */,
-				748915B81F41C75500E5EF04 /* AppDelegate.swift */,
-				748915BE1F41C75500E5EF04 /* GameScene.swift */,
-				749847121F4492D00028F414 /* eaten.wav */,
-				749847291F4759BA0028F414 /* origin.plist */,
-				749247FB1F48AF9600411A6D /* flyContinuous.aiff */,
-				749847101F4491B90028F414 /* GameOverScene.swift */,
-				749847251F46FD330028F414 /* EndScene.swift */,
-				749847161F45B9500028F414 /* WonScene.swift */,
-				749247F71F487F8C00411A6D /* SubScene.swift */,
-				749847141F44C9800028F414 /* TryAgainScene.swift */,
-				7498472B1F47658C0028F414 /* StartupScene.swift */,
+				740042321F4EE6CA00316732 /* Scenes */,
+				740042331F4EE6EB00316732 /* Resources */,
 				748915C01F41C75500E5EF04 /* GameViewController.swift */,
+				748915B81F41C75500E5EF04 /* AppDelegate.swift */,
 				748915C21F41C75500E5EF04 /* Main.storyboard */,
 				748915C51F41C75500E5EF04 /* Assets.xcassets */,
 				748915C71F41C75500E5EF04 /* LaunchScreen.storyboard */,
+				740042341F4EE92600316732 /* Info-iPad.plist */,
 				748915CA1F41C75500E5EF04 /* Info.plist */,
 				7485C0D41F437801001B139B /* Paths.bundle */,
-				749247FD1F49C48400411A6D /* MyPlayground.playground */,
 			);
 			path = SpiderSaidToTheFly;
 			sourceTree = "<group>";
@@ -183,6 +253,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		740041EE1F4ED62000316732 /* SpiderSaidToTheFly-iPad */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7400420D1F4ED62000316732 /* Build configuration list for PBXNativeTarget "SpiderSaidToTheFly-iPad" */;
+			buildPhases = (
+				740041EF1F4ED62000316732 /* Sources */,
+				740042041F4ED62000316732 /* Frameworks */,
+				740042051F4ED62000316732 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SpiderSaidToTheFly-iPad";
+			productName = SpiderSaidToTheFly;
+			productReference = 740042101F4ED62000316732 /* SpiderSaidToTheFly-iPad.app */;
+			productType = "com.apple.product-type.application";
+		};
 		748915B41F41C75500E5EF04 /* SpiderSaidToTheFly */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 748915D81F41C75500E5EF04 /* Build configuration list for PBXNativeTarget "SpiderSaidToTheFly" */;
@@ -228,6 +315,9 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = FvH;
 				TargetAttributes = {
+					740041EE1F4ED62000316732 = {
+						DevelopmentTeam = 6VB963WBA8;
+					};
 					748915B41F41C75500E5EF04 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 6VB963WBA8;
@@ -255,22 +345,38 @@
 			targets = (
 				748915B41F41C75500E5EF04 /* SpiderSaidToTheFly */,
 				748915CE1F41C75500E5EF04 /* SpiderSaidToTheFlyTests */,
+				740041EE1F4ED62000316732 /* SpiderSaidToTheFly-iPad */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		740042051F4ED62000316732 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				740042061F4ED62000316732 /* Main.storyboard in Resources */,
+				740042071F4ED62000316732 /* beep.wav in Resources */,
+				740042081F4ED62000316732 /* Assets.xcassets in Resources */,
+				740042091F4ED62000316732 /* Paths.bundle in Resources */,
+				7400420A1F4ED62000316732 /* flyContinuous.aiff in Resources */,
+				7400420B1F4ED62000316732 /* LaunchScreen.storyboard in Resources */,
+				7400420C1F4ED62000316732 /* eaten.wav in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		748915B31F41C75500E5EF04 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				749847131F4492D00028F414 /* eaten.wav in Resources */,
 				748915C41F41C75500E5EF04 /* Main.storyboard in Resources */,
-				7498472A1F4759BA0028F414 /* origin.plist in Resources */,
+				740041ED1F4DAB0700316732 /* beep.wav in Resources */,
 				748915C61F41C75500E5EF04 /* Assets.xcassets in Resources */,
+				740042351F4EE92600316732 /* Info-iPad.plist in Resources */,
 				7485C0D51F437802001B139B /* Paths.bundle in Resources */,
 				749247FC1F48AF9600411A6D /* flyContinuous.aiff in Resources */,
 				748915C91F41C75500E5EF04 /* LaunchScreen.storyboard in Resources */,
+				740041EB1F4DAA3D00316732 /* eaten.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,11 +390,40 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		740041EF1F4ED62000316732 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				740041F01F4ED62000316732 /* TryAgainScene.swift in Sources */,
+				740041F11F4ED62000316732 /* CreditsScene.swift in Sources */,
+				740041F21F4ED62000316732 /* NextScene.swift in Sources */,
+				740041F31F4ED62000316732 /* Game.swift in Sources */,
+				740041F41F4ED62000316732 /* GameScene.swift in Sources */,
+				740041F51F4ED62000316732 /* GameViewController.swift in Sources */,
+				740041F61F4ED62000316732 /* LevelSettingsLoader.swift in Sources */,
+				740041F71F4ED62000316732 /* WonScene.swift in Sources */,
+				740041F81F4ED62000316732 /* GameOverScene.swift in Sources */,
+				740041F91F4ED62000316732 /* SubScene.swift in Sources */,
+				740041FA1F4ED62000316732 /* NAngle.swift in Sources */,
+				740041FB1F4ED62000316732 /* SpeedControl.swift in Sources */,
+				740041FC1F4ED62000316732 /* WebPolylineLoader.swift in Sources */,
+				740041FD1F4ED62000316732 /* EndScene.swift in Sources */,
+				740041FE1F4ED62000316732 /* AppDelegate.swift in Sources */,
+				740041FF1F4ED62000316732 /* LevelSettings.swift in Sources */,
+				740042001F4ED62000316732 /* WebPath.swift in Sources */,
+				740042011F4ED62000316732 /* WebPathPosition.swift in Sources */,
+				740042021F4ED62000316732 /* StartupScene.swift in Sources */,
+				740042031F4ED62000316732 /* WebPathLoader.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		748915B11F41C75500E5EF04 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				749847151F44C9800028F414 /* TryAgainScene.swift in Sources */,
+				740041DF1F4D9D8A00316732 /* CreditsScene.swift in Sources */,
+				740041DD1F4D8F7C00316732 /* NextScene.swift in Sources */,
 				749847281F472A630028F414 /* Game.swift in Sources */,
 				748915BF1F41C75500E5EF04 /* GameScene.swift in Sources */,
 				748915C11F41C75500E5EF04 /* GameViewController.swift in Sources */,
@@ -298,6 +433,7 @@
 				749247F81F487F8C00411A6D /* SubScene.swift in Sources */,
 				7485C0C31F41F164001B139B /* NAngle.swift in Sources */,
 				7485C0C51F420341001B139B /* SpeedControl.swift in Sources */,
+				749247FF1F4B672F00411A6D /* WebPolylineLoader.swift in Sources */,
 				749847261F46FD330028F414 /* EndScene.swift in Sources */,
 				748915B91F41C75500E5EF04 /* AppDelegate.swift in Sources */,
 				749847221F46111A0028F414 /* LevelSettings.swift in Sources */,
@@ -349,6 +485,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		7400420E1F4ED62000316732 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6VB963WBA8;
+				INFOPLIST_FILE = "$(SRCROOT)/SpiderSaidToTheFly/Info-iPad.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.frvh.SpiderSaidToTheFly;
+				PRODUCT_NAME = "SpiderSaidToTheFly-iPad";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		7400420F1F4ED62000316732 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6VB963WBA8;
+				INFOPLIST_FILE = "$(SRCROOT)/SpiderSaidToTheFly/Info-iPad.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.frvh.SpiderSaidToTheFly;
+				PRODUCT_NAME = "SpiderSaidToTheFly-iPad";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
 		748915D61F41C75500E5EF04 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -449,9 +615,10 @@
 				DEVELOPMENT_TEAM = 6VB963WBA8;
 				INFOPLIST_FILE = SpiderSaidToTheFly/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fvh.SpiderSaidToTheFly;
+				PRODUCT_BUNDLE_IDENTIFIER = com.frvh.SpiderSaidToTheFly;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -462,9 +629,10 @@
 				DEVELOPMENT_TEAM = 6VB963WBA8;
 				INFOPLIST_FILE = SpiderSaidToTheFly/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fvh.SpiderSaidToTheFly;
+				PRODUCT_BUNDLE_IDENTIFIER = com.frvh.SpiderSaidToTheFly;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -499,6 +667,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7400420D1F4ED62000316732 /* Build configuration list for PBXNativeTarget "SpiderSaidToTheFly-iPad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7400420E1F4ED62000316732 /* Debug */,
+				7400420F1F4ED62000316732 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		748915B01F41C75500E5EF04 /* Build configuration list for PBXProject "SpiderSaidToTheFly" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

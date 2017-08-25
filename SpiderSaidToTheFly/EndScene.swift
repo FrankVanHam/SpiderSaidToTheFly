@@ -13,7 +13,10 @@ class EndScene: SubScene {
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.white
         
-        self.addCenterLabel(text: "You beat the spider", aligmnent: .bottom, size: 20)
-        self.addCenterLabel(text: "Touch the screen to start all over", aligmnent: .top, size: 12)
+        var labels: [String] = []
+        labels.append("")
+        labels.append("touch the screen to start over")
+        
+        self.addCenterLabels( mains: ["You beat the spider"], subs: labels )
     }
 }

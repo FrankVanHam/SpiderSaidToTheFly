@@ -1,0 +1,8 @@
+{
+    "spiderSpeed": 80,
+    "flySpeed": 60,
+    "flyPosition": 0.45,
+    "subtext": ["The spider is faster than you", "on this level", "but you have got a head start!"
+                ]
+
+}

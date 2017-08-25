@@ -1,0 +1,7 @@
+{
+    "spiderSpeed": 50,
+    "flySpeed": 70,
+    "flyPosition": 0.14,
+    "subtext": ["hide in the pockets to avoid", "spider collision"
+                ]    
+}

@@ -21,15 +21,38 @@ class SubScene: SKScene {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addCenterLabel(text: String, aligmnent: SKLabelVerticalAlignmentMode, size: CGFloat) {
+    func addCenterLabels( mains: [String], subs: [String]) {
+        let (big, small) = self.figureFontSizes()
+        var runningY = self.frame.midY
+        for main in mains {
+            runningY = self.addLabel( text: main, y: runningY, size: big )
+        }
+        for sub in subs {
+            runningY = self.addLabel( text: sub, y: runningY, size: small )
+        }
+    }
+    
+    func addLabel(text: String, y: CGFloat, size: CGFloat) -> CGFloat {
         let label = SKLabelNode(fontNamed: "ChalkboardSE-Regular")
         label.text = text
         label.horizontalAlignmentMode = .center
-        label.verticalAlignmentMode = aligmnent
-        label.fontSize = 20
+        label.fontSize = size
         label.fontColor = UIColor.black
-        label.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        label.position = CGPoint(x: self.frame.midX, y: y)
         self.addChild(label)
+        return y - size - 5.0
+    }
+    
+    private func figureFontSizes() -> (CGFloat, CGFloat) {
+        let width = size.width
+        print(width)
+        switch width {
+            case 0..<320-1:   return (20, 10)
+            case 320..<375-1: return (24, 12)
+            case 375..<414-1: return (26, 13)
+            case 414..<768-1: return (28, 14)
+            default: return (32,16)
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
